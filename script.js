@@ -1,8 +1,138 @@
-const header=document.querySelector('.topbar');let last=0;window.addEventListener('scroll',()=>{const y=window.scrollY;if(y>last&&y>120)header.style.transform='translateY(-100%)';else header.style.transform='translateY(0)';last=y;});
-const lightbox=document.querySelector('.lightbox');const lightboxImage=document.querySelector('.lightbox-image');const closeLightbox=()=>{lightbox.classList.remove('open');lightbox.setAttribute('aria-hidden','true');lightboxImage.src='';};document.querySelectorAll('.photo-button').forEach(button=>{button.addEventListener('click',()=>{lightboxImage.src=button.dataset.full;lightboxImage.alt=button.querySelector('img').alt;lightbox.classList.add('open');lightbox.setAttribute('aria-hidden','false');});});document.querySelector('.lightbox-close').addEventListener('click',closeLightbox);lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
-const teleportLinks={KRUSH:'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086',SOHO:'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024'};
-document.querySelectorAll('.agenda-list .event').forEach(event=>{const title=(event.querySelector('b')?.textContent||'').toUpperCase();const club=title.includes('KRUSH')?'KRUSH':title.includes('SOHO')?'SOHO':null;if(club&&teleportLinks[club]){const wrap=document.createElement('div');wrap.className='event-actions';const a=document.createElement('a');a.href=teleportLinks[club];a.className='teleport-button';a.textContent='↗ TELEPORT TO '+club;a.target='_blank';a.rel='noopener';wrap.appendChild(a);event.appendChild(wrap);}});
-const teleportStyle=document.createElement('style');teleportStyle.textContent='.agenda-list .event{position:relative}.event-actions{display:flex;align-items:center;justify-content:flex-end;margin-left:auto;padding-left:16px}.teleport-button{display:inline-flex;align-items:center;justify-content:center;border:1px solid #4b4b52;color:#fff;background:transparent;padding:10px 13px;font:900 8px Inter,Arial,sans-serif;letter-spacing:.12em;text-decoration:none;white-space:nowrap;transition:.2s}.teleport-button:hover{background:#e31b23;border-color:#e31b23;transform:translateY(-1px)}@media(max-width:760px){.event-actions{grid-column:1/-1;margin-left:0;padding-left:0;margin-top:8px;justify-content:flex-start}.teleport-button{width:100%}}';document.head.appendChild(teleportStyle);
-const discordButton=document.querySelector('#booking a[href*="discord.com"]');if(discordButton){discordButton.addEventListener('click',e=>{e.preventDefault();window.location.href='discord://-/users/110883002162163712';setTimeout(()=>{window.open('https://discord.com/users/110883002162163712','_blank','noopener');},1200);});}
-const pressSection=document.querySelector('#press');if(pressSection){const pressButton=pressSection.querySelector('.press-head .button');if(pressButton){const download=document.createElement('a');download.className='button';download.href='DJ_ZRO_EPK_Press_Kit_v2.pdf';download.setAttribute('download','DJ_ZRO_EPK_Press_Kit_v2.pdf');download.textContent='DOWNLOAD PRESS KIT';pressButton.replaceWith(download);}}
-const visitorStyle=document.createElement('style');visitorStyle.textContent='.visitor-counter{display:flex;justify-content:center;align-items:center;margin:18px auto 0}.visitor-counter img{display:block;height:18px;width:auto}';document.head.appendChild(visitorStyle);const visitorCounter=document.createElement('div');visitorCounter.className='visitor-counter';const visitorBadge=document.createElement('img');visitorBadge.alt='Visitors';visitorBadge.src='https://counterapi.com/counter.svg?ns=djzro.github.io&action=view&key=unique-visitors&unique=true&label=VISITORS&style=flat&labelColor=transparent&color=transparent&noLink=true';visitorCounter.appendChild(visitorBadge);document.body.appendChild(visitorCounter);
+(() => {
+  'use strict';
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  // Sticky header: hide while scrolling down, reveal while scrolling up.
+  const header = $('.topbar');
+  let lastScrollY = window.scrollY;
+  if (header) {
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current > lastScrollY && current > 120) header.style.transform = 'translateY(-100%)';
+      else header.style.transform = 'translateY(0)';
+      lastScrollY = current;
+    }, { passive: true });
+  }
+
+  // Active navigation state.
+  const navLinks = $$('.topbar nav a');
+  const sections = navLinks
+    .map(link => $(link.getAttribute('href')))
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && navLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => link.classList.toggle(
+          'active',
+          link.getAttribute('href') === `#${entry.target.id}`
+        ));
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+  }
+
+  // Gallery lightbox.
+  const lightbox = $('.lightbox');
+  const lightboxImage = $('.lightbox-image');
+  const closeButton = $('.lightbox-close');
+
+  const closeLightbox = () => {
+    if (!lightbox || !lightboxImage) return;
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImage.src = '';
+    document.body.style.overflow = '';
+  };
+
+  $$('.photo-button').forEach(button => {
+    button.addEventListener('click', () => {
+      if (!lightbox || !lightboxImage) return;
+      const image = $('img', button);
+      lightboxImage.src = button.dataset.full || image?.src || '';
+      lightboxImage.alt = image?.alt || 'DJ ZRØ gallery image';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  closeButton?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', event => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeLightbox();
+  });
+
+  // Second Life teleport links for agenda events.
+  const teleportLinks = {
+    KRUSH: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086',
+    SOHO: 'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024'
+  };
+
+  $$('.agenda-list .event').forEach(event => {
+    if ($('.event-actions', event)) return;
+    const title = ($('b', event)?.textContent || '').toUpperCase();
+    const club = title.includes('KRUSH') ? 'KRUSH' : title.includes('SOHO') ? 'SOHO' : null;
+    if (!club) return;
+
+    const actions = document.createElement('div');
+    actions.className = 'event-actions';
+    const link = document.createElement('a');
+    link.href = teleportLinks[club];
+    link.className = 'teleport-button';
+    link.textContent = `↗ TELEPORT TO ${club}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    actions.appendChild(link);
+    event.appendChild(actions);
+  });
+
+  // Discord deep link with web fallback.
+  const discordButton = $('#booking a[href*="discord.com"]');
+  if (discordButton) {
+    discordButton.addEventListener('click', event => {
+      event.preventDefault();
+      window.location.href = 'discord://-/users/110883002162163712';
+      window.setTimeout(() => {
+        window.open('https://discord.com/users/110883002162163712', '_blank', 'noopener,noreferrer');
+      }, 1200);
+    });
+  }
+
+  // Press Kit download.
+  const pressSection = $('#press');
+  const pressButton = $('.press-head .button', pressSection || document);
+  if (pressButton && pressSection) {
+    const download = document.createElement('a');
+    download.className = 'button';
+    download.href = 'DJ_ZRO_EPK_Press_Kit_v2.pdf';
+    download.download = 'DJ_ZRO_EPK_Press_Kit_v2.pdf';
+    download.textContent = 'DOWNLOAD PRESS KIT';
+    pressButton.replaceWith(download);
+  }
+
+  // Lightweight unique visitor badge.
+  const visitorStyle = document.createElement('style');
+  visitorStyle.textContent = `
+    .visitor-counter{display:flex;justify-content:center;align-items:center;min-height:18px;margin:18px auto 0;opacity:.75;transition:opacity .2s}
+    .visitor-counter:hover{opacity:1}
+    .visitor-counter img{display:block;height:18px;width:auto}
+  `;
+  document.head.appendChild(visitorStyle);
+
+  const visitorCounter = document.createElement('div');
+  visitorCounter.className = 'visitor-counter';
+  visitorCounter.setAttribute('aria-label', 'Unique visitors');
+
+  const visitorBadge = document.createElement('img');
+  visitorBadge.alt = 'Visitors';
+  visitorBadge.src = 'https://counterapi.com/counter.svg?ns=djzro.github.io&action=view&key=unique-visitors&unique=true&label=VISITORS&style=flat&labelColor=transparent&color=transparent&noLink=true';
+
+  visitorCounter.appendChild(visitorBadge);
+  document.body.appendChild(visitorCounter);
+})();
