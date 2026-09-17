@@ -68,6 +68,37 @@
     if (event.key === 'Escape') closeLightbox();
   });
 
+
+  // Special Halloween event modal.
+  const halloweenModal = $('#halloweenModal');
+  const openHalloweenEvent = $('#openHalloweenEvent');
+  const closeHalloweenEvent = $('#closeHalloweenEvent');
+  const closeHalloweenEventSecondary = $('#closeHalloweenEventSecondary');
+
+  const closeHalloweenModal = () => {
+    if (!halloweenModal) return;
+    halloweenModal.classList.remove('open');
+    halloweenModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  const openHalloweenModal = () => {
+    if (!halloweenModal) return;
+    halloweenModal.classList.add('open');
+    halloweenModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  openHalloweenEvent?.addEventListener('click', openHalloweenModal);
+  closeHalloweenEvent?.addEventListener('click', closeHalloweenModal);
+  closeHalloweenEventSecondary?.addEventListener('click', closeHalloweenModal);
+  halloweenModal?.addEventListener('click', event => {
+    if (event.target === halloweenModal) closeHalloweenModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeHalloweenModal();
+  });
+
   // Second Life teleport links for agenda events.
   const teleportLinks = {
     KRUSH: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086',
