@@ -108,3 +108,25 @@ footer{max-width:var(--max);margin:auto;padding:30px clamp(24px,5vw,80px);displa
 .halloween-modal-close:hover{color:#ef6d31;opacity:1}
 @media(max-width:900px){.halloween-event,.halloween-modal-panel{grid-template-columns:1fr}.halloween-art,.halloween-art img{min-height:340px}.halloween-modal-art,.halloween-modal-art img{min-height:260px;max-height:330px}.halloween-modal-panel{max-height:92vh}.halloween-modal-content{padding:32px 24px}}
 @media(max-width:560px){.halloween-details,.halloween-modal-details{grid-template-columns:1fr}.halloween-copy{padding:30px 22px}.halloween-copy h2,.halloween-modal h2{font-size:46px}.halloween-modal{padding:10px}.halloween-modal-close{top:8px;right:12px}.halloween-modal-actions{align-items:flex-start;flex-direction:column}}
+
+/* Halloween portal entrance */
+.halloween-modal{overflow:hidden}
+.halloween-modal:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 50% 48%,rgba(117,25,121,.2),transparent 22%,rgba(5,3,7,.76) 62%,rgba(5,3,7,.96) 100%);opacity:0;transition:opacity .6s ease}
+.halloween-modal.open:before{opacity:1}
+.halloween-portal-screen{position:absolute;z-index:0;left:50%;top:50%;width:min(54vw,680px);height:min(54vw,680px);transform:translate(-50%,-50%) scale(.35);border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffd6b0;opacity:0;filter:blur(12px);background:radial-gradient(circle,rgba(255,118,34,.65) 0%,rgba(165,30,82,.3) 28%,rgba(74,19,102,.15) 45%,transparent 68%);box-shadow:0 0 80px rgba(255,89,37,.45),0 0 180px rgba(119,39,173,.32);transition:transform .95s cubic-bezier(.16,1,.3,1),opacity .7s ease,filter .95s ease}
+.halloween-modal.open .halloween-portal-screen{transform:translate(-50%,-50%) scale(1);opacity:1;filter:blur(0)}
+.halloween-portal-screen:before,.halloween-portal-screen:after{content:"";position:absolute;inset:8%;border:1px solid rgba(255,151,85,.78);border-radius:50%;box-shadow:0 0 24px rgba(255,115,46,.55),inset 0 0 30px rgba(187,56,119,.35);animation:portalSpin 14s linear infinite}
+.halloween-portal-screen:after{inset:16%;border-color:rgba(185,99,255,.58);animation:portalSpinReverse 10s linear infinite}
+.halloween-portal-screen b{position:relative;z-index:2;font-size:clamp(13px,1.6vw,20px);line-height:1.15;letter-spacing:.28em;text-shadow:0 0 18px rgba(255,131,51,.9);animation:portalPulse 2.4s ease-in-out infinite}
+.halloween-portal-screen em{color:#ff7a35;font-style:normal}
+.halloween-portal-orbit{position:absolute;inset:23%;border-radius:50%;border:1px dashed rgba(255,174,110,.7);animation:portalSpin 8s linear infinite}
+.orbit-two{inset:30%;border-color:rgba(171,102,255,.65);animation:portalSpinReverse 6s linear infinite}
+.halloween-portal-spark{position:absolute;color:#ff9b55;font-size:28px;text-shadow:0 0 16px #ff5d2e;animation:portalFloat 2.6s ease-in-out infinite}
+.spark-one{left:18%;top:30%}.spark-two{right:18%;bottom:28%;animation-delay:-1.2s}
+.halloween-modal-panel{z-index:1;transform:translateY(36px) scale(.9);opacity:0;filter:blur(8px);transition:transform .8s .25s cubic-bezier(.16,1,.3,1),opacity .6s .25s ease,filter .8s .25s ease}
+.halloween-modal.open .halloween-modal-panel{transform:translateY(0) scale(1);opacity:1;filter:blur(0)}
+.halloween-modal-panel:after{content:"PORTAL ABERTO";position:absolute;top:18px;left:26px;z-index:3;color:#ff9b55;font-size:8px;font-weight:900;letter-spacing:.2em;text-shadow:0 0 12px rgba(255,91,36,.8)}
+.halloween-teleport-button{background:#d85b2b!important;border-color:#ff8b4b!important;box-shadow:0 0 28px rgba(255,93,35,.25),0 12px 30px rgba(216,91,43,.18)}
+.halloween-teleport-button:hover{background:#ff7b38!important;border-color:#ffad72!important;transform:translateY(-2px) scale(1.02)}
+@keyframes portalSpin{to{transform:rotate(360deg)}}@keyframes portalSpinReverse{to{transform:rotate(-360deg)}}@keyframes portalPulse{0%,100%{opacity:.78;transform:scale(.98)}50%{opacity:1;transform:scale(1.04)}}@keyframes portalFloat{0%,100%{transform:translateY(0) scale(.8);opacity:.5}50%{transform:translateY(-12px) scale(1.1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.halloween-portal-screen:before,.halloween-portal-screen:after,.halloween-portal-screen b,.halloween-portal-orbit,.halloween-portal-spark{animation:none}}
