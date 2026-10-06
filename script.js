@@ -69,35 +69,66 @@
   });
 
 
-  // Special Halloween event modal.
-  const halloweenModal = $('#halloweenModal');
-  const openHalloweenEvent = $('#openHalloweenEvent');
-  const closeHalloweenEvent = $('#closeHalloweenEvent');
-  const closeHalloweenEventSecondary = $('#closeHalloweenEventSecondary');
+  // Dynamic NEXT SET based on Second Life Time (America/Los_Angeles).
+  const weeklySets = [
+    { day: 2, dayName: 'TUESDAY', club: 'KRUSH', time: '12:00 PM – 2:00 PM SLT', start: 12 * 60, end: 14 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
+    { day: 5, dayName: 'FRIDAY', club: 'SOHO CLUB', time: '9:00 AM – 10:30 AM SLT', start: 9 * 60, end: 10 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024' },
+    { day: 6, dayName: 'SATURDAY', club: 'KRUSH', time: '8:00 PM – 10:00 PM SLT', start: 20 * 60, end: 22 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
+    { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
+  ];
 
-  const closeHalloweenModal = () => {
-    if (!halloweenModal) return;
-    halloweenModal.classList.remove('open');
-    halloweenModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+  const updateNextSet = () => {
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Los_Angeles',
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23'
+    });
+    const parts = Object.fromEntries(fmt.formatToParts(new Date()).map(p => [p.type, p.value]));
+    const dayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    const currentDay = dayMap[parts.weekday];
+    const currentMinutes = Number(parts.hour) * 60 + Number(parts.minute);
+
+    let selected = null;
+    let isLive = false;
+    for (const set of weeklySets) {
+      if (set.day === currentDay && currentMinutes >= set.start && currentMinutes < set.end) {
+        selected = set;
+        isLive = true;
+        break;
+      }
+    }
+    if (!selected) {
+      selected = weeklySets
+        .map(set => {
+          let days = (set.day - currentDay + 7) % 7;
+          let distance = days * 1440 + set.start - currentMinutes;
+          if (distance <= 0) distance += 7 * 1440;
+          return { set, distance };
+        })
+        .sort((a,b) => a.distance - b.distance)[0].set;
+    }
+
+    const status = $('#nextSetStatus');
+    const club = $('#nextSetClub');
+    const style = $('#nextSetStyle');
+    const day = $('#nextSetDay');
+    const time = $('#nextSetTime');
+    const teleport = $('#nextSetTeleport');
+    if (status) status.textContent = isLive ? 'LIVE NOW' : 'UP NEXT';
+    if (club) club.textContent = selected.club;
+    if (style) style.textContent = 'TECH HOUSE / BASS HOUSE';
+    if (day) day.textContent = selected.dayName;
+    if (time) time.textContent = selected.time;
+    if (teleport) {
+      teleport.href = selected.url;
+      teleport.textContent = isLive ? '↗ JOIN THE SET' : '↗ TELEPORT TO CLUB';
+    }
   };
 
-  const openHalloweenModal = () => {
-    if (!halloweenModal) return;
-    halloweenModal.classList.add('open');
-    halloweenModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  };
-
-  openHalloweenEvent?.addEventListener('click', openHalloweenModal);
-  closeHalloweenEvent?.addEventListener('click', closeHalloweenModal);
-  closeHalloweenEventSecondary?.addEventListener('click', closeHalloweenModal);
-  halloweenModal?.addEventListener('click', event => {
-    if (event.target === halloweenModal) closeHalloweenModal();
-  });
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeHalloweenModal();
-  });
+  updateNextSet();
+  window.setInterval(updateNextSet, 60000);
 
   // Second Life teleport links for agenda events.
   const teleportLinks = {
