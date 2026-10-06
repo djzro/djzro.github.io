@@ -95,13 +95,26 @@ footer{max-width:var(--max);margin:auto;padding:30px clamp(24px,5vw,80px);displa
 .residencies-section{background:#0d0d10}
 .residency-showcase{display:grid;grid-template-columns:1.15fr .925fr .925fr;gap:14px}
 .residency-card{min-height:520px;position:relative;overflow:hidden;border:1px solid #2d2d33;background:#151519;background-size:cover;background-position:center;isolation:isolate;transition:transform .35s var(--ease),border-color .35s,box-shadow .35s}
-.residency-card:before{content:"";position:absolute;inset:0;z-index:-2;background:inherit;background-size:cover;background-position:center;transition:transform .65s var(--ease),filter .65s var(--ease)}
+.residency-card:before{content:"";position:absolute;inset:0;z-index:-2;background:inherit;transition:transform .65s var(--ease),filter .65s var(--ease),opacity .65s var(--ease);opacity:.98}
 .residency-card:hover:before{transform:scale(1.055);filter:saturate(1.08) contrast(1.04)}
+.residency-card:after{content:"";position:absolute;inset:auto -10% -20% -10%;height:55%;z-index:-1;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.10),transparent 38%);opacity:.45;pointer-events:none}
 .residency-card:hover{transform:translateY(-5px);border-color:#55555d;box-shadow:0 28px 70px rgba(0,0,0,.35)}
-.residency-krush{background-image:url('photos/photo-09.webp')}
-.residency-soho{background-image:url('photos/photo-12.webp')}
-.residency-indecent{background-image:url('photos/photo-05.webp')}
-.residency-overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,5,7,.18) 5%,rgba(8,8,10,.52) 45%,rgba(8,8,10,.96) 100%),linear-gradient(110deg,rgba(227,27,35,.22),transparent 42%)}
+.residency-krush{background:
+  radial-gradient(circle at 18% 22%,rgba(255,70,80,.22),transparent 26%),
+  radial-gradient(circle at 82% 18%,rgba(255,255,255,.08),transparent 18%),
+  radial-gradient(circle at 60% 78%,rgba(227,27,35,.20),transparent 24%),
+  linear-gradient(135deg,#111115 0%,#1a1013 38%,#09090b 100%)}
+.residency-soho{background:
+  radial-gradient(circle at 20% 25%,rgba(100,130,255,.18),transparent 24%),
+  radial-gradient(circle at 78% 22%,rgba(180,120,255,.18),transparent 22%),
+  radial-gradient(circle at 55% 80%,rgba(255,255,255,.06),transparent 18%),
+  linear-gradient(135deg,#0d1016 0%,#161326 42%,#09090d 100%)}
+.residency-indecent{background:
+  radial-gradient(circle at 18% 20%,rgba(255,80,140,.18),transparent 24%),
+  radial-gradient(circle at 82% 18%,rgba(160,70,255,.14),transparent 20%),
+  radial-gradient(circle at 52% 84%,rgba(255,255,255,.05),transparent 18%),
+  linear-gradient(135deg,#120d13 0%,#1a1018 40%,#09090c 100%)}
+.residency-overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,5,7,.12) 0%,rgba(8,8,10,.48) 42%,rgba(8,8,10,.94) 100%)}
 .residency-content{height:100%;min-height:520px;padding:34px;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
 .resident-label{position:absolute;top:28px;left:30px;padding:8px 10px;border:1px solid rgba(255,255,255,.22);background:rgba(10,10,12,.5);backdrop-filter:blur(8px);font-size:8px;font-weight:900;letter-spacing:.18em}
 .residency-content h3{font-size:clamp(42px,5.5vw,82px);line-height:.82;letter-spacing:-.065em;margin:0 0 26px;text-shadow:0 8px 34px rgba(0,0,0,.5)}
