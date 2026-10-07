@@ -72,6 +72,7 @@
   // Dynamic NEXT SET based on Second Life Time (America/Los_Angeles).
   const weeklySets = [
     { day: 2, dayName: 'TUESDAY', club: 'KRUSH', time: '12:00 PM – 2:00 PM SLT', start: 12 * 60, end: 14 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
+    { day: 3, dayName: 'WEDNESDAY', club: 'GOLDEN CROWNS CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: null },
     { day: 5, dayName: 'FRIDAY', club: 'SOHO CLUB', time: '9:00 AM – 10:30 AM SLT', start: 9 * 60, end: 10 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024' },
     { day: 6, dayName: 'SATURDAY', club: 'KRUSH', time: '8:00 PM – 10:00 PM SLT', start: 20 * 60, end: 22 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
     { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
@@ -122,8 +123,14 @@
     if (day) day.textContent = selected.dayName;
     if (time) time.textContent = selected.time;
     if (teleport) {
-      teleport.href = selected.url;
-      teleport.textContent = isLive ? '↗ JOIN THE SET' : '↗ TELEPORT TO CLUB';
+      if (selected.url) {
+        teleport.href = selected.url;
+        teleport.textContent = isLive ? '↗ JOIN THE SET' : '↗ TELEPORT TO CLUB';
+        teleport.style.display = '';
+      } else {
+        teleport.removeAttribute('href');
+        teleport.style.display = 'none';
+      }
     }
   };
 
