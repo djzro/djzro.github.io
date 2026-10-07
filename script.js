@@ -78,10 +78,17 @@
     { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
   ];
 
+  const oneTimeSets = [
+    { date: '2026-10-08', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null }
+  ];
+
   const updateNextSet = () => {
     const fmt = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/Los_Angeles',
       weekday: 'short',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
       hourCycle: 'h23'
@@ -100,15 +107,36 @@
         break;
       }
     }
+
+    let nextWeeklyDistance = 0;
     if (!selected) {
-      selected = weeklySets
+      const upcomingWeekly = weeklySets
         .map(set => {
           let days = (set.day - currentDay + 7) % 7;
           let distance = days * 1440 + set.start - currentMinutes;
           if (distance <= 0) distance += 7 * 1440;
           return { set, distance };
         })
-        .sort((a,b) => a.distance - b.distance)[0].set;
+        .sort((a,b) => a.distance - b.distance)[0];
+      selected = upcomingWeekly.set;
+      nextWeeklyDistance = upcomingWeekly.distance;
+    }
+
+    const todayYear = Number(parts.year);
+    const todayMonth = Number(parts.month);
+    const todayDate = Number(parts.day);
+    const nextOneTime = oneTimeSets
+      .map(set => {
+        const [eventYear, eventMonth, eventDay] = set.date.split('-').map(Number);
+        const days = (Date.UTC(eventYear, eventMonth - 1, eventDay)
+          - Date.UTC(todayYear, todayMonth - 1, todayDate)) / 86400000;
+        return { set, distance: days * 1440 + set.start - currentMinutes };
+      })
+      .filter(event => event.distance > 0)
+      .sort((a,b) => a.distance - b.distance)[0];
+
+    if (!isLive && nextOneTime && nextOneTime.distance < nextWeeklyDistance) {
+      selected = nextOneTime.set;
     }
 
     const status = $('#nextSetStatus');
