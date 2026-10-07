@@ -79,7 +79,7 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-10-08', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null }
+    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null }
   ];
 
   const updateNextSet = () => {
