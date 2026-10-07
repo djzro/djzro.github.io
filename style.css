@@ -127,3 +127,9 @@ footer{max-width:var(--max);margin:auto;padding:30px clamp(24px,5vw,80px);displa
 @media(max-width:1180px){.topbar nav{gap:10px}.top-socials a{width:30px;height:30px}.residency-showcase{grid-template-columns:1fr 1fr}.residency-krush{grid-column:1/-1}}
 @media(max-width:900px){.top-socials{display:none}.residency-showcase{grid-template-columns:1fr}.residency-krush{grid-column:auto}.residency-card,.residency-content{min-height:430px}}
 @media(max-width:560px){.residency-card,.residency-content{min-height:390px}.residency-content{padding:24px}.resident-label{top:20px;left:22px}.residency-content h3{font-size:48px}.residency-button{width:100%}}
+
+.residency-golden{background:
+  radial-gradient(circle at 22% 18%,rgba(255,205,90,.22),transparent 24%),
+  radial-gradient(circle at 78% 26%,rgba(255,245,190,.10),transparent 18%),
+  radial-gradient(circle at 58% 78%,rgba(190,130,40,.18),transparent 26%),
+  linear-gradient(135deg,#15120b 0%,#22190c 42%,#09090b 100%)}
