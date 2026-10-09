@@ -79,7 +79,8 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null }
+    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null },
+    { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null }
   ];
 
   const updateNextSet = () => {
@@ -147,7 +148,7 @@
     const teleport = $('#nextSetTeleport');
     if (status) status.textContent = isLive ? 'LIVE NOW' : 'UP NEXT';
     if (club) club.textContent = selected.club;
-    if (style) style.textContent = 'TECH HOUSE / BASS HOUSE';
+    if (style) style.textContent = selected.style || 'TECH HOUSE / BASS HOUSE';
     if (day) day.textContent = selected.dayName;
     if (time) time.textContent = selected.time;
     if (teleport) {
