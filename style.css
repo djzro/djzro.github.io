@@ -167,6 +167,7 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .next-set-countdown{display:flex;align-items:center;gap:14px;width:max-content;max-width:100%;margin-top:24px;padding:10px 13px;border-left:2px solid var(--red);background:linear-gradient(90deg,rgba(229,9,20,.13),transparent)}
 .next-set-countdown span{color:#aaa;font-size:7px;font-weight:900;letter-spacing:.16em}
 .next-set-countdown b{color:#fff;font:800 clamp(12px,1.4vw,17px)/1.2 Inter,Arial,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.04em;white-space:nowrap}
+.next-set-card{border-color:rgba(229,9,20,.38);box-shadow:0 0 0 1px rgba(229,9,20,.05);transition:border-color .3s,box-shadow .3s}
 .next-set-card.is-live{border-color:rgba(229,9,20,.55)}
 .live-dot{animation:none}
 .next-set-section.is-live .live-dot{animation:livePulse 1.6s ease-in-out infinite}
