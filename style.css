@@ -159,3 +159,22 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
  .mixes .mix-info h3{min-height:0}
  .mixes .mix-card iframe{height:86px}
 }
+
+/* Brand icons, live countdown, and flyer motion */
+.top-socials a svg{display:block;width:16px;height:16px}
+.hero-socials a{background:rgba(5,5,5,.48)}
+.hero-socials a:hover svg{transform:scale(1.08)}
+.next-set-countdown{display:flex;align-items:center;gap:14px;width:max-content;max-width:100%;margin-top:24px;padding:10px 13px;border-left:2px solid var(--red);background:linear-gradient(90deg,rgba(229,9,20,.13),transparent)}
+.next-set-countdown span{color:#aaa;font-size:7px;font-weight:900;letter-spacing:.16em}
+.next-set-countdown b{color:#fff;font:800 clamp(12px,1.4vw,17px)/1.2 Inter,Arial,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.04em;white-space:nowrap}
+.next-set-card.is-live{border-color:rgba(229,9,20,.55)}
+.live-dot{animation:none}
+.next-set-section.is-live .live-dot{animation:livePulse 1.6s ease-in-out infinite}
+.party-card{border:1px solid transparent;transition:transform .35s var(--ease),border-color .35s,box-shadow .35s}
+.party-card:hover{transform:translateY(-4px);border-color:#3b2022;box-shadow:0 16px 36px rgba(0,0,0,.3)}
+.party-flyer-open{isolation:isolate}
+.party-image-frame img{transition:transform .55s var(--ease),filter .55s}
+.party-flyer-open:hover .party-image-frame img{transform:scale(1.035);filter:saturate(1.08)}
+.party-flyer-open:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(229,9,20,.16),transparent 55%);opacity:0;transition:opacity .35s}
+.party-flyer-open:hover:after{opacity:1}
+@media(max-width:700px){.hero-socials{margin-top:18px}.top-socials a{width:34px;height:34px}}

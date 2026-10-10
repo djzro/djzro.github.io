@@ -198,8 +198,7 @@
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null }
   ];
 
-  const updateNextSet = () => {
-    const fmt = new Intl.DateTimeFormat('en-US', {
+  const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/Los_Angeles',
       weekday: 'short',
       year: 'numeric',
@@ -207,68 +206,113 @@
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
+      second: '2-digit',
       hourCycle: 'h23'
-    });
-    const parts = Object.fromEntries(fmt.formatToParts(new Date()).map(p => [p.type, p.value]));
+  });
+  const getSlTimeParts = date => Object.fromEntries(
+    slTimeFormatter.formatToParts(date).map(part => [part.type, part.value])
+  );
+  const shiftSlDate = (parts, days) => {
+    const date = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day) + days));
+    return {
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth() + 1,
+      day: date.getUTCDate()
+    };
+  };
+  const slDateTimeToInstant = (dateParts, minutes) => {
+    const dayOffset = Math.floor(minutes / 1440);
+    const minuteOfDay = ((minutes % 1440) + 1440) % 1440;
+    const date = shiftSlDate(dateParts, dayOffset);
+    const target = {
+      year: date.year,
+      month: date.month,
+      day: date.day,
+      hour: Math.floor(minuteOfDay / 60),
+      minute: minuteOfDay % 60,
+      second: 0
+    };
+    const targetUtc = Date.UTC(target.year, target.month - 1, target.day, target.hour, target.minute);
+    let instant = targetUtc;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const observed = getSlTimeParts(new Date(instant));
+      const observedUtc = Date.UTC(
+        Number(observed.year), Number(observed.month) - 1, Number(observed.day),
+        Number(observed.hour), Number(observed.minute), Number(observed.second)
+      );
+      const adjustment = targetUtc - observedUtc;
+      instant += adjustment;
+      if (adjustment === 0) break;
+    }
+    return new Date(instant);
+  };
+
+  const updateNextSet = () => {
+    const now = new Date();
+    const parts = getSlTimeParts(now);
     const dayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
     const currentDay = dayMap[parts.weekday];
     const currentMinutes = Number(parts.hour) * 60 + Number(parts.minute);
 
-    let selected = null;
-    let isLive = false;
-    for (const set of weeklySets) {
-      if (set.day === currentDay && currentMinutes >= set.start && currentMinutes < set.end) {
-        selected = set;
-        isLive = true;
-        break;
-      }
-    }
+    const liveSet = weeklySets.find(set =>
+      set.day === currentDay && currentMinutes >= set.start && currentMinutes < set.end
+    );
+    const weeklyCandidates = weeklySets.map(set => {
+      const dayOffset = (set.day - currentDay + 7) % 7;
+      let target = slDateTimeToInstant(parts, dayOffset * 1440 + set.start);
+      if (target <= now) target = slDateTimeToInstant(parts, (dayOffset + 7) * 1440 + set.start);
+      return { set, target, isLive: false };
+    });
+    const oneTimeCandidates = oneTimeSets.map(set => {
+      const [year, month, dayNumber] = set.date.split('-').map(Number);
+      const target = slDateTimeToInstant({ year, month, day: dayNumber }, set.start);
+      return { set, target, isLive: false };
+    });
 
-    let nextWeeklyDistance = 0;
-    if (!selected) {
-      const upcomingWeekly = weeklySets
-        .map(set => {
-          let days = (set.day - currentDay + 7) % 7;
-          let distance = days * 1440 + set.start - currentMinutes;
-          if (distance <= 0) distance += 7 * 1440;
-          return { set, distance };
-        })
-        .sort((a,b) => a.distance - b.distance)[0];
-      selected = upcomingWeekly.set;
-      nextWeeklyDistance = upcomingWeekly.distance;
+    let selected;
+    if (liveSet) {
+      selected = {
+        set: liveSet,
+        target: slDateTimeToInstant(parts, liveSet.end),
+        isLive: true
+      };
+    } else {
+      selected = [...weeklyCandidates, ...oneTimeCandidates]
+        .filter(candidate => candidate.target > now)
+        .sort((a, b) => a.target - b.target)[0];
     }
-
-    const todayYear = Number(parts.year);
-    const todayMonth = Number(parts.month);
-    const todayDate = Number(parts.day);
-    const nextOneTime = oneTimeSets
-      .map(set => {
-        const [eventYear, eventMonth, eventDay] = set.date.split('-').map(Number);
-        const days = (Date.UTC(eventYear, eventMonth - 1, eventDay)
-          - Date.UTC(todayYear, todayMonth - 1, todayDate)) / 86400000;
-        return { set, distance: days * 1440 + set.start - currentMinutes };
-      })
-      .filter(event => event.distance > 0)
-      .sort((a,b) => a.distance - b.distance)[0];
-
-    if (!isLive && nextOneTime && nextOneTime.distance < nextWeeklyDistance) {
-      selected = nextOneTime.set;
-    }
+    if (!selected) return;
 
     const status = $('#nextSetStatus');
     const club = $('#nextSetClub');
     const style = $('#nextSetStyle');
     const day = $('#nextSetDay');
     const time = $('#nextSetTime');
+    const countdownLabel = $('#nextSetCountdownLabel');
+    const countdown = $('#nextSetCountdown');
     const teleport = $('#nextSetTeleport');
+    const isLive = selected.isLive;
     if (status) status.textContent = isLive ? 'LIVE NOW' : 'UP NEXT';
-    if (club) club.textContent = selected.club;
-    if (style) style.textContent = selected.style || 'TECH HOUSE / BASS HOUSE';
-    if (day) day.textContent = selected.dayName;
-    if (time) time.textContent = selected.time;
+    if (club) club.textContent = selected.set.club;
+    if (style) style.textContent = selected.set.style || 'TECH HOUSE / BASS HOUSE';
+    if (day) day.textContent = selected.set.dayName;
+    if (time) time.textContent = selected.set.time;
+    if (countdownLabel) countdownLabel.textContent = isLive ? 'SET ENDS IN' : 'STARTS IN';
+    if (countdown) {
+      let remaining = Math.max(0, Math.ceil((selected.target.getTime() - now.getTime()) / 1000));
+      const days = Math.floor(remaining / 86400);
+      remaining %= 86400;
+      const hours = Math.floor(remaining / 3600);
+      remaining %= 3600;
+      const minutes = Math.floor(remaining / 60);
+      const seconds = remaining % 60;
+      countdown.textContent = `${String(days).padStart(2, '0')}D : ${String(hours).padStart(2, '0')}H : ${String(minutes).padStart(2, '0')}M : ${String(seconds).padStart(2, '0')}S`;
+    }
+    $('.next-set-card')?.classList.toggle('is-live', isLive);
+    $('.next-set-section')?.classList.toggle('is-live', isLive);
     if (teleport) {
-      if (selected.url) {
-        teleport.href = selected.url;
+      if (selected.set.url) {
+        teleport.href = selected.set.url;
         teleport.textContent = isLive ? '↗ JOIN THE SET' : '↗ TELEPORT TO CLUB';
         teleport.style.display = '';
       } else {
@@ -279,7 +323,7 @@
   };
 
   updateNextSet();
-  window.setInterval(updateNextSet, 60000);
+  window.setInterval(updateNextSet, 1000);
 
   // Second Life teleport links for agenda events.
   const teleportLinks = {
