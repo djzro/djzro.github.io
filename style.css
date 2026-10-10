@@ -133,6 +133,7 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .mixes .agenda-head{margin:0 0 18px;align-items:flex-end}
 .mixes .agenda-head h2{font-size:clamp(36px,5.1vw,70px);line-height:.9}
 .mixes .agenda-head h2 br{display:none}
+.mixes .agenda-head h2 em{margin-left:.16em}
 .mixes .section-lead{font-size:11px!important;margin:8px 0 0!important}
 .mixes .agenda-head>p{margin:0 0 5px}
 .mixes .mix-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;border:0}
