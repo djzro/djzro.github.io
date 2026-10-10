@@ -126,3 +126,4 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
  .photo-arrow{width:34px;height:34px}
 }
 @media(prefers-reduced-motion:reduce){.photo-grid{scroll-behavior:auto}}
+.gallery-heading h2 em{margin-left:.14em}
