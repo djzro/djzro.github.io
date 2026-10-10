@@ -219,3 +219,4 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .flickr-grid noscript{grid-column:1/-1;color:#aaa;font-size:12px}
 .flickr-grid noscript a{color:#fff}
 @media(max-width:700px){.flickr-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.flickr-toolbar{align-items:flex-start;flex-direction:column;gap:10px}.flickr-photo-overlay{grid-template-columns:20px minmax(0,1fr) 14px;gap:5px;padding:20px 8px 8px;font-size:7px}}
+.residency-krush{min-height:0}.residency-krush .residency-content{height:auto;min-height:0}.residency-krush .resident-label{top:8px}.residency-krush .residency-content h3{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;margin:0}
