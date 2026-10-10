@@ -225,3 +225,16 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .residency-card{height:100%}.residency-content{height:100%}
 .residency-indecent .resident-label{top:8px}.residency-indecent .residency-content h3{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;margin:0}
 .residency-indecent .residency-logo-frame{background:#242424}.residency-indecent .residency-logo-frame img{transform:scale(1.16)}
+
+/* Unified, restrained hover polish */
+@media (hover:hover) and (pointer:fine){
+  .button,.top-book,.residency-button,.teleport-button,.party-arrow,.photo-arrow,.flickr-toolbar a,.top-socials a{transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s,color .22s,background-color .22s}
+  .button:hover,.top-book:hover,.residency-button:hover,.teleport-button:hover,.party-arrow:hover:not(:disabled),.photo-arrow:hover:not(:disabled),.flickr-toolbar a:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(229,9,20,.22)}
+  .topbar nav a:hover{text-shadow:0 0 12px rgba(229,9,20,.38)}
+  .topbar nav a:hover:after,.topbar nav a.active:after{box-shadow:0 0 8px rgba(229,9,20,.7)}
+  .top-socials a:hover{box-shadow:0 0 12px rgba(229,9,20,.24)}
+  .party-card:hover{border-color:rgba(229,9,20,.55);box-shadow:0 14px 34px rgba(229,9,20,.12)}
+  .photo-card:hover{box-shadow:0 0 0 1px rgba(229,9,20,.44),0 12px 26px rgba(229,9,20,.12)}
+  .residency-card:hover{border-color:rgba(229,9,20,.62);box-shadow:0 10px 28px rgba(229,9,20,.12)}
+  .flickr-photo:hover{border-color:rgba(229,9,20,.62);box-shadow:0 0 20px rgba(229,9,20,.16)}
+}
