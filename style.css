@@ -64,3 +64,33 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 @media(max-width:900px){.hero{min-height:560px}.hero-content{width:75%}.hero h1{font-size:clamp(70px,14vw,140px)}.proof-strip{grid-template-columns:repeat(2,1fr)}.proof-strip>div:nth-child(2){border-right:0}.proof-strip>div:first-child{padding-left:18px}.artist-feature{grid-template-columns:1fr}.artist-image-wrap,.artist-image-wrap img{min-height:520px}.artist-side{min-height:270px;border-left:0;border-top:1px solid var(--line)}.booking-layout{grid-template-columns:1fr;gap:32px}.booking-availability{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}.press-head{align-items:flex-start;flex-direction:column}.mix-list{grid-template-columns:1fr}.featured-mix{grid-column:auto}.event{grid-template-columns:110px minmax(0,1fr) auto}.event-actions{grid-column:3}.event-tag{display:none}.party-card{flex-basis:min(46vw,430px)}}
 @media(max-width:700px){html{scroll-padding-top:68px}.topbar{height:64px;padding:0 5vw;gap:14px;overflow:hidden}.logo{font-size:34px;flex:0 0 auto}.topbar nav{flex:1;min-width:0;gap:14px;overflow-x:auto;scrollbar-width:none;font-size:7px}.topbar nav::-webkit-scrollbar{display:none}.hero{min-height:610px;padding:82px 6vw 66px;align-items:flex-end}.hero-photo{inset:0;width:100%;opacity:.75}.hero-photo img{object-position:center top}.hero-photo:after{background:linear-gradient(90deg,rgba(5,5,5,.62),rgba(5,5,5,.08)),linear-gradient(0deg,#050505 0%,rgba(5,5,5,.75) 32%,transparent 78%),radial-gradient(ellipse at 75% 45%,rgba(229,9,20,.13),transparent 42%)}.hero-content{width:100%}.hero h1{font-size:clamp(66px,18vw,120px)}.hero .eyebrow{margin-bottom:16px}.hero-sub{font-size:8px;letter-spacing:.12em;margin:22px 0 14px}.hero-line{font-size:23px;margin-bottom:20px}.hero-caption{right:6vw;top:24px;bottom:auto;font-size:7px}.button{font-size:8px;padding:11px 13px}.hero-actions{gap:15px}.section{padding:64px 6vw}.section h2{font-size:clamp(42px,12vw,68px)}.agenda-head{display:block;margin:20px 0 32px}.agenda-head>p{margin-top:16px}.parties-section{padding-top:48px;padding-bottom:58px}.parties-heading{display:block;margin-bottom:20px}.parties-heading h2{font-size:50px}.parties-intro{margin-top:14px}.party-card{flex-basis:86vw}.party-image-frame{aspect-ratio:4/5}.party-card-info{padding:12px 0 15px}.party-card-info h3{font-size:18px}.party-kicker{font-size:7px}.party-arrow{width:36px;height:36px}.party-track{gap:12px}.party-swipe-hint{font-size:6px}.proof-strip{grid-template-columns:1fr}.proof-strip>div,.proof-strip>div:first-child{min-height:58px;padding:12px 6vw;border-right:0;border-bottom:1px solid var(--line)}.proof-strip>div:last-child{border-bottom:0}.artist-image-wrap,.artist-image-wrap img{min-height:430px}.artist-side{padding:30px 24px;min-height:250px}.artist-side h3{font-size:48px}.photo-grid{grid-template-columns:1fr 1fr;gap:6px}.photo-overlay{left:9px;right:9px;bottom:8px;font-size:7px}.event{grid-template-columns:70px minmax(0,1fr);gap:12px;padding:17px 0}.event strong{font-size:26px}.event small{font-size:7px}.event b{font-size:11px}.event span{font-size:7px}.event-actions{grid-column:1/-1;justify-content:flex-start;margin-top:2px}.teleport-button{width:100%}.next-set-card{grid-template-columns:1fr}.next-set-main{padding:26px}.next-set-meta{border-left:0;border-top:1px solid var(--line);padding:22px 26px}.next-set-meta .button{align-self:stretch}.residency-showcase{grid-template-columns:1fr}.residency-krush{grid-column:auto}.residency-card,.residency-content{min-height:350px}.residency-content{padding:22px}.resident-label{top:18px;left:20px}.residency-content h3{font-size:46px}.residency-button{align-self:stretch}.press-card{grid-template-columns:1fr}.press-card>div{padding:18px;min-height:unset}.press-card strong{font-size:12px}.press-head .button{width:100%;text-align:center}footer{flex-direction:column;align-items:flex-start}.lightbox{padding:18px}.lightbox-close{top:10px;right:14px;font-size:34px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.party-track{scroll-behavior:auto}}
+\n\n/* Priority schedule and booking download */
+#agenda{padding-top:clamp(48px,5vw,72px);padding-bottom:clamp(52px,5vw,76px);background:#060607;border-top:2px solid var(--red)}
+#agenda .eyebrow{color:var(--red);margin-bottom:12px}
+#agenda .agenda-head{margin:0 0 24px;align-items:flex-end}
+#agenda .agenda-head h2{font-size:clamp(44px,5.5vw,76px)}
+#agenda .agenda-head>p{color:#c2c2c5}
+#agenda .agenda-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;border-top:1px solid #3a3a3d}
+#agenda .event{grid-template-columns:80px minmax(0,1fr);gap:12px;min-height:90px;padding:15px 10px;border-bottom:1px solid var(--line);background:transparent}
+#agenda .event>div:first-child{align-items:center;gap:9px}
+#agenda .event strong{font-size:27px;color:var(--red)}
+#agenda .event small{font-size:7px;color:#999;letter-spacing:.1em}
+#agenda .event b{font-size:12px;margin-bottom:4px}
+#agenda .event span{font-size:8px;color:#c1c1c4;letter-spacing:.08em}
+#agenda .event-tag{display:none}
+#agenda .event-actions{grid-column:2;justify-content:flex-start;margin-top:-7px}
+#agenda .teleport-button{padding:6px 9px;font-size:7px}
+#agenda .special-event{padding-left:12px;border-left:2px solid var(--red);background:linear-gradient(90deg,rgba(229,9,20,.08),transparent 70%)}
+#agenda .note{margin-top:12px;color:#aaa}
+.booking-actions .press-download{border-color:#777}
+@media(max-width:760px){
+ #agenda{padding-top:46px;padding-bottom:54px}
+ #agenda .agenda-head{margin-bottom:20px}
+ #agenda .agenda-list{grid-template-columns:1fr;column-gap:0}
+ #agenda .event{grid-template-columns:72px minmax(0,1fr);min-height:78px;padding:13px 8px}
+ #agenda .event strong{font-size:24px}
+ #agenda .event b{font-size:11px}
+ #agenda .event span{font-size:7px}
+ #agenda .event-actions{margin-top:-4px}
+ .booking-actions .press-download{width:100%}
+}
