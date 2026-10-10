@@ -178,3 +178,7 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .party-flyer-open:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(229,9,20,.16),transparent 55%);opacity:0;transition:opacity .35s}
 .party-flyer-open:hover:after{opacity:1}
 @media(max-width:700px){.hero-socials{margin-top:18px}.top-socials a{width:34px;height:34px}}
+.hero-photo img{transform-origin:64% 35%;animation:heroCinematicDrift 18s ease-in-out infinite alternate}
+.hero-book-button{background:rgba(5,5,5,.5);border-color:#777}
+.hero-book-button:hover{background:var(--red);border-color:var(--red)}
+@keyframes heroCinematicDrift{from{transform:scale(1.015)}to{transform:scale(1.085) translate3d(-.7%,.3%,0)}}
