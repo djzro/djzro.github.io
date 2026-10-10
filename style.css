@@ -224,3 +224,4 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 
 .residency-card{height:100%}.residency-content{height:100%}
 .residency-indecent .resident-label{top:8px}.residency-indecent .residency-content h3{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;margin:0}
+.residency-indecent .residency-logo-frame{background:#242424}.residency-indecent .residency-logo-frame img{transform:scale(1.16)}
