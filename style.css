@@ -163,3 +163,25 @@ footer{max-width:var(--max);margin:auto;padding:30px clamp(24px,5vw,80px);displa
 @media(max-width:900px){.top-socials{display:none}.residency-showcase{grid-template-columns:1fr}.residency-krush{grid-column:auto}.residency-card,.residency-content{min-height:430px}}
 @media(max-width:560px){.residency-card,.residency-content{min-height:390px}.residency-content{padding:24px}.resident-label{top:20px;left:22px}.residency-content h3{font-size:48px}.residency-button{width:100%}}
 
+
+
+/* Refined first fold: compact artist masthead with party flyers immediately below */
+.hero{min-height:min(50vh,540px);padding:clamp(46px,5vw,72px) clamp(24px,5vw,80px)}
+.hero-content{max-width:900px}
+.hero h1{font-size:clamp(82px,14vw,205px)}
+.hero-sub{margin:28px 0 18px}
+.hero-line{margin-bottom:26px}
+.hero-mark{font-size:min(40vw,520px);right:0;color:#151519}
+.parties-section{padding-top:clamp(54px,6vw,86px);padding-bottom:clamp(64px,7vw,100px);background:linear-gradient(180deg,#121216 0%,#0b0b0d 100%)}
+.parties-heading{margin-bottom:26px}
+.parties-heading .eyebrow{margin-bottom:18px;color:#a5a5ad}
+.parties-heading h2{font-size:clamp(42px,6vw,82px);line-height:.82}
+.parties-intro{padding-bottom:7px}
+.party-carousel-toolbar{margin-bottom:12px}
+.party-card{flex-basis:min(43vw,540px);box-shadow:0 18px 55px rgba(0,0,0,.25);transition:border-color .25s,transform .3s var(--ease)}
+.party-card:hover{border-color:#57575f;transform:translateY(-3px)}
+.party-image-frame{aspect-ratio:4/4.65}
+.party-card-info{padding:17px 19px 19px}
+.party-swipe-hint{margin-top:6px}
+@media(max-width:900px){.hero{min-height:55vh;padding-top:58px;padding-bottom:58px}.hero h1{font-size:clamp(76px,16vw,160px)}.party-card{flex-basis:min(44vw,440px)}}
+@media(max-width:760px){.hero{min-height:460px;padding-top:48px;padding-bottom:50px}.hero h1{font-size:clamp(74px,22vw,132px)}.hero-mark{font-size:70vw;right:-22vw;opacity:.75}.hero-sub{margin-top:24px}.parties-section{padding-top:54px;padding-bottom:64px}.parties-heading{margin-bottom:24px}.party-card{flex-basis:82vw}.party-image-frame{aspect-ratio:4/5}.party-card-info{padding:16px}.party-open-label{padding:12px 14px}}
