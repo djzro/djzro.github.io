@@ -201,3 +201,6 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .residency-logo-frame img{object-fit:contain;object-position:center;filter:none}
 .residency-soho .residency-content h3{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;margin:0}
 .residency-soho:hover .residency-logo-frame img{transform:none}
+.residency-soho{min-height:0}
+.residency-soho .residency-content{height:auto;min-height:0}
+.residency-logo-frame{width:100%;aspect-ratio:1/1;margin:0 0 12px}
