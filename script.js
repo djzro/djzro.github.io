@@ -48,7 +48,7 @@
     document.body.style.overflow = '';
   };
 
-  $$('.photo-button').forEach(button => {
+  $$('.photo-button, .party-flyer-open').forEach(button => {
     button.addEventListener('click', () => {
       if (!lightbox || !lightboxImage) return;
       const image = $('img', button);
@@ -67,6 +67,68 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeLightbox();
   });
+
+  // Accessible, swipeable party flyer carousel.
+  const partyCarousel = $('[data-party-carousel]');
+  const partyTrack = $('.party-track', partyCarousel || document);
+  const partyCount = $('[data-party-count]', partyCarousel || document);
+  const partyCards = $$('.party-card', partyTrack || document);
+  const partyPrevious = $('[data-party-prev]', partyCarousel || document);
+  const partyNext = $('[data-party-next]', partyCarousel || document);
+
+  if (partyTrack && partyCards.length) {
+    const updatePartyCarousel = () => {
+      const trackBounds = partyTrack.getBoundingClientRect();
+      const cardIndex = partyCards.reduce((closestIndex, card, index) => {
+        const cardBounds = card.getBoundingClientRect();
+        const currentDistance = Math.abs(cardBounds.left - trackBounds.left);
+        const closestDistance = Math.abs(
+          partyCards[closestIndex].getBoundingClientRect().left - trackBounds.left
+        );
+        return currentDistance < closestDistance ? index : closestIndex;
+      }, 0);
+
+      if (partyCount) {
+        partyCount.innerHTML = `${String(cardIndex + 1).padStart(2, '0')} <i>/</i> ${String(partyCards.length).padStart(2, '0')}`;
+      }
+      if (partyPrevious) partyPrevious.disabled = cardIndex === 0;
+      if (partyNext) partyNext.disabled = cardIndex === partyCards.length - 1;
+    };
+
+    const movePartyCarousel = direction => {
+      const currentIndex = partyCards.reduce((closestIndex, card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - partyTrack.getBoundingClientRect().left);
+        const closestDistance = Math.abs(
+          partyCards[closestIndex].getBoundingClientRect().left - partyTrack.getBoundingClientRect().left
+        );
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+      const targetIndex = Math.max(0, Math.min(partyCards.length - 1, currentIndex + direction));
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      const trackLeft = partyTrack.getBoundingClientRect().left;
+      const cardLeft = partyCards[targetIndex].getBoundingClientRect().left;
+      partyTrack.scrollTo({
+        left: partyTrack.scrollLeft + cardLeft - trackLeft,
+        behavior
+      });
+    };
+
+    partyPrevious?.addEventListener('click', () => movePartyCarousel(-1));
+    partyNext?.addEventListener('click', () => movePartyCarousel(1));
+    partyTrack.addEventListener('scroll', updatePartyCarousel, { passive: true });
+    partyTrack.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        movePartyCarousel(-1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        movePartyCarousel(1);
+      }
+    });
+    window.addEventListener('resize', updatePartyCarousel, { passive: true });
+    updatePartyCarousel();
+  }
 
 
   // Dynamic NEXT SET based on Second Life Time (America/Los_Angeles).
