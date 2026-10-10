@@ -68,6 +68,59 @@
     if (event.key === 'Escape') closeLightbox();
   });
 
+  // Compact, keyboard-accessible live photo carousel.
+  const photoTrack = $('#photo-track');
+  const photoCards = $$('.photo-card', photoTrack || document);
+  const photoCount = $('[data-photo-count]');
+  const photoPrevious = $('[data-photo-prev]');
+  const photoNext = $('[data-photo-next]');
+
+  if (photoTrack && photoCards.length) {
+    const currentPhotoIndex = () => {
+      const trackLeft = photoTrack.getBoundingClientRect().left;
+      return photoCards.reduce((closestIndex, card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        const closestDistance = Math.abs(
+          photoCards[closestIndex].getBoundingClientRect().left - trackLeft
+        );
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+    };
+
+    const updatePhotoGallery = () => {
+      const photoIndex = currentPhotoIndex();
+      if (photoCount) {
+        photoCount.innerHTML = String(photoIndex + 1).padStart(2, '0') + ' <i>/</i> ' + String(photoCards.length).padStart(2, '0');
+      }
+      if (photoPrevious) photoPrevious.disabled = photoIndex === 0;
+      if (photoNext) photoNext.disabled = photoIndex === photoCards.length - 1;
+    };
+
+    const movePhotoGallery = direction => {
+      const photoIndex = currentPhotoIndex();
+      const targetIndex = Math.max(0, Math.min(photoCards.length - 1, photoIndex + direction));
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      const trackLeft = photoTrack.getBoundingClientRect().left;
+      const cardLeft = photoCards[targetIndex].getBoundingClientRect().left;
+      photoTrack.scrollTo({ left: photoTrack.scrollLeft + cardLeft - trackLeft, behavior });
+    };
+
+    photoPrevious?.addEventListener('click', () => movePhotoGallery(-1));
+    photoNext?.addEventListener('click', () => movePhotoGallery(1));
+    photoTrack.addEventListener('scroll', updatePhotoGallery, { passive: true });
+    photoTrack.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        movePhotoGallery(-1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        movePhotoGallery(1);
+      }
+    });
+    window.addEventListener('resize', updatePhotoGallery, { passive: true });
+    updatePhotoGallery();
+  }
   // Accessible, swipeable party flyer carousel.
   const partyCarousel = $('[data-party-carousel]');
   const partyTrack = $('.party-track', partyCarousel || document);

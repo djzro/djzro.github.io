@@ -94,3 +94,35 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
  #agenda .event-actions{margin-top:-4px}
  .booking-actions .press-download{width:100%}
 }
+
+/* Compact photo strip */
+.gallery-section{padding-block:clamp(42px,5vw,66px)}
+.gallery-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:0 0 24px}
+.gallery-heading .eyebrow{color:var(--red);margin:0 0 10px}
+.gallery-heading h2{font-size:clamp(42px,6vw,76px);line-height:.9;letter-spacing:-.08em;margin:0;white-space:nowrap}
+.gallery-heading h2 em{font-style:normal;color:var(--red)}
+.gallery-intro{color:#888;font-size:8px;font-weight:800;letter-spacing:.16em;margin:0 0 5px;text-align:right}
+.photo-gallery-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.photo-count{color:#888;font-size:8px;font-weight:800;letter-spacing:.16em}
+.photo-count i{font-style:normal;color:var(--red);padding:0 4px}
+.photo-controls{display:flex;gap:6px}
+.photo-arrow{width:36px;height:36px;border:1px solid #303033;background:#080809;color:#fff;font-size:18px;line-height:1;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.photo-arrow:hover:not(:disabled){background:var(--red);border-color:var(--red)}
+.photo-arrow:disabled{opacity:.35;cursor:default}
+.photo-arrow:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.photo-grid{display:flex;gap:clamp(8px,1vw,14px);overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--red) #171719;padding:3px 0 11px}
+.photo-grid::-webkit-scrollbar{height:5px}
+.photo-grid::-webkit-scrollbar-track{background:#171719}
+.photo-grid::-webkit-scrollbar-thumb{background:var(--red)}
+.photo-card{flex:0 0 clamp(220px,23vw,330px);scroll-snap-align:start;border:1px solid #202023;background:#09090b}
+.photo-button{aspect-ratio:16/10}
+.photo-swipe-hint{margin:8px 0 0;color:#777;font-size:7px;font-weight:700;letter-spacing:.15em;text-align:right}
+@media(max-width:700px){
+ .gallery-section{padding:54px 6vw}
+ .gallery-heading{display:block;margin-bottom:18px}
+ .gallery-heading h2{font-size:clamp(38px,11vw,54px);white-space:normal}
+ .gallery-intro{margin:9px 0 0;text-align:left}
+ .photo-card{flex-basis:78vw}
+ .photo-arrow{width:34px;height:34px}
+}
+@media(prefers-reduced-motion:reduce){.photo-grid{scroll-behavior:auto}}
