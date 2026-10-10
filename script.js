@@ -351,6 +351,57 @@
     event.appendChild(actions);
   });
 
+  // Live public Flickr photostream via Flickr JSONP feed.
+  const flickrGrid = $('#flickr-grid');
+  const flickrStatus = $('#flickr-status');
+  if (flickrGrid && flickrStatus) {
+    const feedScript = document.createElement('script');
+    const showFlickrError = () => {
+      if (flickrGrid.children.length) return;
+      flickrStatus.textContent = 'Photos are temporarily unavailable. Open the full photostream on Flickr.';
+    };
+    window.renderDJZroFlickrFeed = payload => {
+      const photos = Array.isArray(payload?.items) ? payload.items.slice(0, 6) : [];
+      const cards = photos.map((photo, index) => {
+        const imageUrl = photo.media?.m?.replace(/_m(?=\.[a-z0-9]+$)/i, '_z');
+        if (!imageUrl || !photo.link) return null;
+        const title = String(photo.title || 'DJ ZRØ photo').trim() || 'DJ ZRØ photo';
+        const card = document.createElement('a');
+        card.className = 'flickr-photo';
+        card.href = photo.link;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.setAttribute('aria-label', `Open ${title} on Flickr`);
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = `${title} — DJ ZRØ on Flickr`;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        const overlay = document.createElement('span');
+        overlay.className = 'flickr-photo-overlay';
+        const number = document.createElement('b');
+        number.textContent = String(index + 1).padStart(2, '0');
+        const caption = document.createElement('span');
+        caption.textContent = title;
+        const arrow = document.createElement('i');
+        arrow.textContent = '↗';
+        overlay.append(number, caption, arrow);
+        card.append(image, overlay);
+        return card;
+      }).filter(Boolean);
+      flickrGrid.replaceChildren(...cards);
+      flickrStatus.textContent = cards.length
+        ? `${String(cards.length).padStart(2, '0')} LATEST PHOTOS FROM FLICKR`
+        : 'No public photos are available yet. Open the full photostream on Flickr.';
+      feedScript.remove();
+      delete window.renderDJZroFlickrFeed;
+    };
+    feedScript.src = 'https://www.flickr.com/services/feeds/photos_public.gne?id=199928464%40N02&format=json&jsoncallback=renderDJZroFlickrFeed';
+    feedScript.async = true;
+    feedScript.onerror = showFlickrError;
+    window.setTimeout(showFlickrError, 10000);
+    document.head.appendChild(feedScript);
+  }
   // Discord deep link with web fallback.
   const discordButton = $('#booking a[href*="discord.com"]');
   if (discordButton) {
