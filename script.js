@@ -194,6 +194,8 @@
   ];
 
   const oneTimeSets = [
+    { date: '2026-10-13', dayName: 'TUESDAY', club: 'ONYX', style: 'AFRO HOUSE', time: '11:00 AM – 12:00 PM SLT', start: 11 * 60, url: null },
+    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ONYX', style: 'DEEP HOUSE', time: '10:00 AM SLT', start: 10 * 60, url: null },
     { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null }
   ];
