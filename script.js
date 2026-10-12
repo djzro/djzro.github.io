@@ -5,6 +5,21 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 
+  // Second Life Time follows Pacific time and its daylight-saving changes.
+  const sltTime = $('#slt-time');
+  if (sltTime) {
+    const sltFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Los_Angeles',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    const updateSltClock = () => {
+      sltTime.textContent = sltFormatter.format(new Date());
+    };
+    updateSltClock();
+    window.setInterval(updateSltClock, 15000);
+  }
   // Active navigation state.
   const navLinks = $$('.topbar nav a');
   const sections = navLinks
