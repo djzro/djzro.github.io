@@ -39,93 +39,27 @@
     sections.forEach(section => observer.observe(section));
   }
 
-  // Separate recurring residencies from date-specific appearances.
+  // Keep every set in one calendar-style grid while clearly labeling its type.
   const agendaList = $('.agenda-list');
   if (agendaList) {
     const dayNames = { MON: 'MONDAY', TUE: 'TUESDAY', WED: 'WEDNESDAY', THU: 'THURSDAY', FRI: 'FRIDAY', SAT: 'SATURDAY', SUN: 'SUNDAY' };
-    const dayOrder = Object.keys(dayNames);
-    const recurringByDay = new Map(dayOrder.map(day => [day, []]));
-    const oneTimeEvents = [];
+    const schedule = document.createElement('div');
+    schedule.className = 'agenda-events-grid';
     $$('.event', agendaList).forEach(event => {
       const day = $('strong', event)?.textContent.trim();
       const frequency = $('.event-frequency', event);
       if (!dayNames[day] || !frequency) return;
-      if (frequency.classList.contains('is-weekly')) recurringByDay.get(day).push(event);
-      else oneTimeEvents.push({ event, day });
+      const isWeekly = frequency.classList.contains('is-weekly');
+      event.classList.add(isWeekly ? 'agenda-resident' : 'agenda-one-time');
+      frequency.textContent = isWeekly ? 'RESIDENT' : 'ONE-TIME SET';
+      if (!isWeekly && !$('.event-date', event)) {
+        const date = document.createElement('small');
+        date.className = 'event-date';
+        date.textContent = 'DATE TO BE CONFIRMED';
+        event.firstElementChild?.appendChild(date);
+      }
+      schedule.appendChild(event);
     });
-
-    const blockHeader = (eyebrow, titleText, detail, titleId) => {
-      const header = document.createElement('div');
-      header.className = 'agenda-block-header';
-      const titles = document.createElement('div');
-      const label = document.createElement('span');
-      label.className = 'agenda-block-label';
-      label.textContent = eyebrow;
-      const title = document.createElement('h3');
-      title.id = titleId;
-      title.textContent = titleText;
-      titles.append(label, title);
-      const note = document.createElement('span');
-      note.className = 'agenda-block-detail';
-      note.textContent = detail;
-      header.append(titles, note);
-      return header;
-    };
-
-    const schedule = document.createDocumentFragment();
-
-    const recurringDays = dayOrder.filter(day => recurringByDay.get(day).length);
-    const recurringCount = recurringDays.reduce((total, day) => total + recurringByDay.get(day).length, 0);
-    if (recurringCount) {
-      const weeklyBlock = document.createElement('section');
-      weeklyBlock.className = 'agenda-block weekly-block';
-      weeklyBlock.setAttribute('aria-labelledby', 'weekly-residencies-title');
-      weeklyBlock.append(blockHeader('REPEATS EVERY WEEK', 'WEEKLY RESIDENCIES', `${recurringDays.length} DAYS · ${recurringCount} SETS`, 'weekly-residencies-title'));
-      const daysGrid = document.createElement('div');
-      daysGrid.className = 'agenda-weekly-grid';
-      recurringDays.forEach(day => {
-        const card = document.createElement('article');
-        card.className = 'agenda-day';
-        const header = document.createElement('div');
-        header.className = 'agenda-day-header';
-        const title = document.createElement('h4');
-        title.textContent = dayNames[day];
-        const note = document.createElement('span');
-        note.textContent = 'EVERY WEEK';
-        header.append(title, note);
-        const list = document.createElement('div');
-        list.className = 'agenda-day-events';
-        recurringByDay.get(day).forEach(event => list.appendChild(event));
-        card.append(header, list);
-        daysGrid.appendChild(card);
-      });
-      weeklyBlock.append(daysGrid);
-      schedule.append(weeklyBlock);
-    }
-
-    if (oneTimeEvents.length) {
-      const oneTimeBlock = document.createElement('section');
-      oneTimeBlock.className = 'agenda-block one-time-block';
-      oneTimeBlock.setAttribute('aria-labelledby', 'one-time-sets-title');
-      oneTimeBlock.append(blockHeader('GUEST SETS · SPECIAL EVENTS', 'ONE-TIME APPEARANCES', `${oneTimeEvents.length} SETS`, 'one-time-sets-title'));
-      const oneTimeList = document.createElement('div');
-      oneTimeList.className = 'agenda-one-time-grid';
-      oneTimeEvents.forEach(({ event, day }) => {
-        const card = document.createElement('article');
-        card.className = 'agenda-one-time-card';
-        const dateBadge = document.createElement('div');
-        dateBadge.className = 'agenda-one-time-date';
-        const date = document.createElement('strong');
-        date.textContent = $('.event-date', event)?.textContent.trim() || day;
-        const weekday = document.createElement('span');
-        weekday.textContent = $('.event-date', event) ? dayNames[day] : 'DATE TO BE CONFIRMED';
-        dateBadge.append(date, weekday);
-        card.append(dateBadge, event);
-        oneTimeList.appendChild(card);
-      });
-      oneTimeBlock.append(oneTimeList);
-      schedule.append(oneTimeBlock);
-    }
 
     agendaList.replaceChildren(schedule);
   }
