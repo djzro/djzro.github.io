@@ -194,7 +194,7 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-10-12', dayName: 'MONDAY', club: 'DC RHYTHMS', time: '1:00 PM – 2:30 PM SLT', start: 13 * 60, end: 14 * 60 + 30, url: null },
+    { date: '2026-10-12', dayName: 'MONDAY', club: 'DC RHYTHMS', style: 'ONE-TIME SET', time: '1:00 PM – 2:30 PM SLT', start: 13 * 60, end: 14 * 60 + 30, url: null },
     { date: '2026-10-13', dayName: 'TUESDAY', club: 'ONYX', style: 'AFRO HOUSE', time: '11:00 AM – 12:00 PM SLT', start: 11 * 60, url: null },
     { date: '2026-10-15', dayName: 'THURSDAY', club: 'ONYX', style: 'DEEP HOUSE', time: '10:00 AM SLT', start: 10 * 60, url: null },
     { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null },
