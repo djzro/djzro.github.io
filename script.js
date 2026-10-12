@@ -130,6 +130,31 @@
   const partyNext = $('[data-party-next]', partyCarousel || document);
 
   if (partyTrack && partyCards.length) {
+    const sortPartyCardsByDate = () => {
+      const parts = Object.fromEntries(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).formatToParts(new Date()).map(part => [part.type, part.value])
+      );
+      const today = `${parts.year}-${parts.month}-${parts.day}`;
+      partyCards.sort((a, b) => {
+        const aDate = a.dataset.eventDate || '9999-12-31';
+        const bDate = b.dataset.eventDate || '9999-12-31';
+        const aPast = aDate < today;
+        const bPast = bDate < today;
+        if (aPast !== bPast) return aPast ? 1 : -1;
+        const dateOrder = aDate.localeCompare(bDate);
+        if (dateOrder) return dateOrder;
+        return Number(a.dataset.eventMinute || 0) - Number(b.dataset.eventMinute || 0);
+      });
+      partyCards.forEach((card, index) => {
+        partyTrack.appendChild(card);
+        card.setAttribute('aria-label', `${index + 1} of ${partyCards.length}`);
+        const indexLabel = $('.party-index', card);
+        if (indexLabel) indexLabel.textContent = String(index + 1).padStart(2, '0');
+      });
+    };
+    sortPartyCardsByDate();
     const updatePartyCarousel = () => {
       const trackBounds = partyTrack.getBoundingClientRect();
       const cardIndex = partyCards.reduce((closestIndex, card, index) => {
