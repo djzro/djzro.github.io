@@ -39,6 +39,51 @@
     sections.forEach(section => observer.observe(section));
   }
 
+  // Group weekly and one-time events by weekday, then sort by start time.
+  const agendaList = $('.agenda-list');
+  if (agendaList) {
+    const dayNames = { MON: 'MONDAY', TUE: 'TUESDAY', WED: 'WEDNESDAY', THU: 'THURSDAY', FRI: 'FRIDAY', SAT: 'SATURDAY', SUN: 'SUNDAY' };
+    const dayOrder = Object.keys(dayNames);
+    const dayEvents = new Map(dayOrder.map(day => [day, []]));
+    $$('.event', agendaList).forEach(event => {
+      const day = $('strong', event)?.textContent.trim();
+      if (dayEvents.has(day)) dayEvents.get(day).push(event);
+    });
+
+    const startMinutes = event => {
+      const match = event.textContent.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+      if (!match) return Number.MAX_SAFE_INTEGER;
+      let hour = Number(match[1]) % 12;
+      if (match[3].toUpperCase() === 'PM') hour += 12;
+      return hour * 60 + Number(match[2] || 0);
+    };
+    const schedule = document.createDocumentFragment();
+    dayOrder.forEach(day => {
+      const events = dayEvents.get(day).sort((a, b) => startMinutes(a) - startMinutes(b));
+      const card = document.createElement('section');
+      card.className = 'agenda-day';
+      const header = document.createElement('div');
+      header.className = 'agenda-day-header';
+      const title = document.createElement('h3');
+      title.textContent = dayNames[day];
+      const count = document.createElement('span');
+      count.textContent = events.length ? `${events.length} ${events.length === 1 ? 'SET' : 'SETS'}` : 'NO SETS';
+      header.append(title, count);
+      const list = document.createElement('div');
+      list.className = 'agenda-day-events';
+      if (events.length) {
+        events.forEach(event => list.appendChild(event));
+      } else {
+        const empty = document.createElement('p');
+        empty.className = 'agenda-day-empty';
+        empty.textContent = 'NO SETS SCHEDULED';
+        list.appendChild(empty);
+      }
+      card.append(header, list);
+      schedule.appendChild(card);
+    });
+    agendaList.replaceChildren(schedule);
+  }
   // Gallery lightbox.
   const lightbox = $('.lightbox');
   const lightboxImage = $('.lightbox-image');
