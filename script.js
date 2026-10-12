@@ -4,17 +4,6 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-  // Sticky header: hide while scrolling down, reveal while scrolling up.
-  const header = $('.topbar');
-  let lastScrollY = window.scrollY;
-  if (header) {
-    window.addEventListener('scroll', () => {
-      const current = window.scrollY;
-      if (current > lastScrollY && current > 120) header.style.transform = 'translateY(-100%)';
-      else header.style.transform = 'translateY(0)';
-      lastScrollY = current;
-    }, { passive: true });
-  }
 
   // Active navigation state.
   const navLinks = $$('.topbar nav a');
