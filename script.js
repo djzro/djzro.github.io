@@ -64,60 +64,85 @@
     agendaList.replaceChildren(schedule);
   }
 
-  // Let visitors audition a short excerpt from the featured SoundCloud set.
-  const featuredMixFrame = $('#featured-mix-player');
-  const mixPreviewButton = $('#mix-preview-button');
-  const mixPreviewStatus = $('#mix-preview-status');
-  if (featuredMixFrame && mixPreviewButton && mixPreviewStatus) {
+  // Let visitors audition a short excerpt from each SoundCloud set.
+  const mixCards = $$('.mix-card').filter(card => $('iframe', card));
+  if (mixCards.length) {
     const previewLength = 30000;
+    const previewControls = mixCards.map(card => {
+      let controls = $('.mix-preview-controls', card);
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.className = 'mix-preview-controls';
+        const labels = document.createElement('div');
+        const previewLabel = document.createElement('span');
+        previewLabel.className = 'mix-preview-label';
+        previewLabel.textContent = '30-SECOND PREVIEW';
+        const status = document.createElement('span');
+        status.className = 'mix-preview-status';
+        status.textContent = 'READY TO PLAY';
+        labels.append(previewLabel, status);
+        const button = document.createElement('button');
+        button.className = 'mix-preview-button';
+        button.type = 'button';
+        button.textContent = 'PLAY PREVIEW';
+        button.disabled = true;
+        controls.append(labels, button);
+        card.insertBefore(controls, $('iframe', card));
+      }
+      return { frame: $('iframe', card), button: $('.mix-preview-button', controls), status: $('.mix-preview-status', controls) };
+    });
     const widgetScript = document.createElement('script');
     widgetScript.src = 'https://w.soundcloud.com/player/api.js';
     widgetScript.async = true;
     widgetScript.onload = () => {
       if (!window.SC?.Widget) return;
-      const widget = window.SC.Widget(featuredMixFrame);
-      let previewFinished = false;
+      previewControls.forEach(({ frame, button, status }) => {
+        if (!frame || !button || !status) return;
+        const widget = window.SC.Widget(frame);
+        let previewFinished = false;
+        const setPreviewStatus = (label, buttonLabel) => {
+          status.textContent = label;
+          button.textContent = buttonLabel;
+        };
 
-      const setPreviewStatus = (label, buttonLabel) => {
-        mixPreviewStatus.textContent = label;
-        mixPreviewButton.textContent = buttonLabel;
-      };
-
-      widget.bind(window.SC.Widget.Events.READY, () => {
-        mixPreviewButton.disabled = false;
-        setPreviewStatus('READY TO PLAY', 'PLAY PREVIEW');
-      });
-      widget.bind(window.SC.Widget.Events.PLAY, () => {
-        setPreviewStatus('PREVIEW PLAYING', 'PAUSE PREVIEW');
-      });
-      widget.bind(window.SC.Widget.Events.PAUSE, () => {
-        if (!previewFinished) setPreviewStatus('PREVIEW PAUSED', 'RESUME PREVIEW');
-      });
-      widget.bind(window.SC.Widget.Events.PLAY_PROGRESS, progress => {
-        if (!previewFinished && progress.currentPosition >= previewLength) {
+        widget.bind(window.SC.Widget.Events.READY, () => {
+          button.disabled = false;
+          setPreviewStatus('READY TO PLAY', 'PLAY PREVIEW');
+        });
+        widget.bind(window.SC.Widget.Events.PLAY, () => {
+          setPreviewStatus('PREVIEW PLAYING', 'PAUSE PREVIEW');
+        });
+        widget.bind(window.SC.Widget.Events.PAUSE, () => {
+          if (!previewFinished) setPreviewStatus('PREVIEW PAUSED', 'RESUME PREVIEW');
+        });
+        widget.bind(window.SC.Widget.Events.PLAY_PROGRESS, progress => {
+          if (!previewFinished && progress.currentPosition >= previewLength) {
+            previewFinished = true;
+            widget.pause();
+            setPreviewStatus('30-SECOND PREVIEW COMPLETE', 'REPLAY PREVIEW');
+          }
+        });
+        widget.bind(window.SC.Widget.Events.FINISH, () => {
           previewFinished = true;
-          widget.pause();
-          setPreviewStatus('30-SECOND PREVIEW COMPLETE', 'REPLAY PREVIEW');
-        }
-      });
-      widget.bind(window.SC.Widget.Events.FINISH, () => {
-        previewFinished = true;
-        setPreviewStatus('SET FINISHED', 'REPLAY PREVIEW');
-      });
+          setPreviewStatus('SET FINISHED', 'REPLAY PREVIEW');
+        });
 
-      mixPreviewButton.addEventListener('click', () => {
-        if (previewFinished) {
-          previewFinished = false;
-          widget.seekTo(0);
-          widget.play();
-          return;
-        }
-        widget.isPaused(isPaused => isPaused ? widget.play() : widget.pause());
+        button.addEventListener('click', () => {
+          if (previewFinished) {
+            previewFinished = false;
+            widget.seekTo(0);
+            widget.play();
+            return;
+          }
+          widget.isPaused(isPaused => isPaused ? widget.play() : widget.pause());
+        });
       });
     };
     widgetScript.onerror = () => {
-      mixPreviewStatus.textContent = 'USE THE SOUNDCloud PLAYER BELOW';
-      mixPreviewButton.hidden = true;
+      previewControls.forEach(({ button, status }) => {
+        if (status) status.textContent = 'SOUNDCLOUD PLAYER UNAVAILABLE';
+        if (button) button.hidden = true;
+      });
     };
     document.head.appendChild(widgetScript);
   }

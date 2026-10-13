@@ -309,3 +309,4 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 @media(max-width:700px){.mix-preview-controls{padding:10px;gap:8px}.mix-preview-button{padding:9px;font-size:7px}}
 .featured-mix{position:relative}
 .featured-mix #featured-mix-player{position:absolute;inset:auto auto 0 0;width:1px;height:1px;min-height:0;opacity:0;overflow:hidden;pointer-events:none;clip-path:inset(50%)}
+.mix-card iframe{position:absolute;inset:auto auto 0 0;width:1px;height:1px;min-height:0;opacity:0;overflow:hidden;pointer-events:none;clip-path:inset(50%)}
