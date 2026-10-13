@@ -63,6 +63,65 @@
 
     agendaList.replaceChildren(schedule);
   }
+
+  // Let visitors audition a short excerpt from the featured SoundCloud set.
+  const featuredMixFrame = $('#featured-mix-player');
+  const mixPreviewButton = $('#mix-preview-button');
+  const mixPreviewStatus = $('#mix-preview-status');
+  if (featuredMixFrame && mixPreviewButton && mixPreviewStatus) {
+    const previewLength = 30000;
+    const widgetScript = document.createElement('script');
+    widgetScript.src = 'https://w.soundcloud.com/player/api.js';
+    widgetScript.async = true;
+    widgetScript.onload = () => {
+      if (!window.SC?.Widget) return;
+      const widget = window.SC.Widget(featuredMixFrame);
+      let previewFinished = false;
+
+      const setPreviewStatus = (label, buttonLabel) => {
+        mixPreviewStatus.textContent = label;
+        mixPreviewButton.textContent = buttonLabel;
+      };
+
+      widget.bind(window.SC.Widget.Events.READY, () => {
+        mixPreviewButton.disabled = false;
+        setPreviewStatus('READY TO PLAY', 'PLAY PREVIEW');
+      });
+      widget.bind(window.SC.Widget.Events.PLAY, () => {
+        setPreviewStatus('PREVIEW PLAYING', 'PAUSE PREVIEW');
+      });
+      widget.bind(window.SC.Widget.Events.PAUSE, () => {
+        if (!previewFinished) setPreviewStatus('PREVIEW PAUSED', 'RESUME PREVIEW');
+      });
+      widget.bind(window.SC.Widget.Events.PLAY_PROGRESS, progress => {
+        if (!previewFinished && progress.currentPosition >= previewLength) {
+          previewFinished = true;
+          widget.pause();
+          setPreviewStatus('30-SECOND PREVIEW COMPLETE', 'REPLAY PREVIEW');
+        }
+      });
+      widget.bind(window.SC.Widget.Events.FINISH, () => {
+        previewFinished = true;
+        setPreviewStatus('SET FINISHED', 'REPLAY PREVIEW');
+      });
+
+      mixPreviewButton.addEventListener('click', () => {
+        if (previewFinished) {
+          previewFinished = false;
+          widget.seekTo(0);
+          widget.play();
+          return;
+        }
+        widget.isPaused(isPaused => isPaused ? widget.play() : widget.pause());
+      });
+    };
+    widgetScript.onerror = () => {
+      mixPreviewStatus.textContent = 'USE THE SOUNDCloud PLAYER BELOW';
+      mixPreviewButton.hidden = true;
+    };
+    document.head.appendChild(widgetScript);
+  }
+
   // Gallery lightbox.
   const lightbox = $('.lightbox');
   const lightboxImage = $('.lightbox-image');

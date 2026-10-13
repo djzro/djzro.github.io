@@ -298,3 +298,12 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 @media(hover:hover){#agenda .agenda-events-grid>.event:hover{transform:translateY(-2px);border-color:#555;box-shadow:0 12px 28px rgba(0,0,0,.35)}#agenda .agenda-events-grid>.event.agenda-resident:hover,#agenda .agenda-events-grid>.event.special-event:hover{border-color:rgba(229,9,20,.72);box-shadow:0 12px 30px rgba(229,9,20,.13)}}
 @media(max-width:900px){#agenda .agenda-events-grid{gap:10px}#agenda .agenda-events-grid>.event{grid-template-columns:82px minmax(0,1fr);gap:11px;padding:17px 15px;min-height:130px}#agenda .agenda-events-grid>.event strong{font-size:28px}#agenda .agenda-events-grid>.event b{font-size:13px}}
 @media(max-width:700px){#agenda .agenda-events-grid{grid-template-columns:1fr;gap:10px}#agenda .agenda-events-grid>.event{grid-template-columns:76px minmax(0,1fr);min-height:0;padding:17px 15px;gap:12px}#agenda .agenda-events-grid>.event strong{font-size:27px}#agenda .agenda-events-grid>.event b{font-size:14px}#agenda .agenda-events-grid>.event span{font-size:10px}#agenda .agenda-events-grid>.event .event-actions{grid-column:1/-1;margin-top:5px}}
+
+.mix-preview-controls{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 12px;border:1px solid rgba(229,9,20,.28);background:linear-gradient(100deg,rgba(229,9,20,.08),rgba(255,255,255,.018))}
+.mix-preview-controls>div{display:grid;gap:4px;min-width:0}
+.mix-preview-label{color:#f0f0f2;font-size:8px;font-weight:900;letter-spacing:.15em}
+.mix-preview-status{color:#99999e;font-size:7px;font-weight:800;letter-spacing:.1em}
+.mix-preview-button{flex:none;padding:9px 12px;border:1px solid rgba(229,9,20,.65);background:#e50914;color:#fff;font:900 8px Inter,Arial,sans-serif;letter-spacing:.11em;cursor:pointer;transition:background-color .2s,box-shadow .2s,transform .2s}
+.mix-preview-button:disabled{opacity:.55;cursor:wait}
+.mix-preview-button:not(:disabled):hover{background:#ff202b;box-shadow:0 0 18px rgba(229,9,20,.3);transform:translateY(-1px)}
+@media(max-width:700px){.mix-preview-controls{padding:10px;gap:8px}.mix-preview-button{padding:9px;font-size:7px}}
