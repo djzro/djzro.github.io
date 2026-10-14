@@ -334,3 +334,22 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .residency-krush .residency-times,.residency-indecent .residency-times{border-top-color:rgba(229,9,20,.45)}
 @media(hover:hover){.residency-krush:hover,.residency-indecent:hover{border-color:rgba(255,40,50,.86);box-shadow:inset 0 0 48px rgba(229,9,20,.12),0 14px 34px rgba(229,9,20,.13)}.residency-krush:hover .residency-logo-frame,.residency-indecent:hover .residency-logo-frame{box-shadow:0 0 38px rgba(229,9,20,.24)}}
 @media(max-width:700px){.residency-krush,.residency-indecent,.residency-krush .residency-content,.residency-indecent .residency-content{min-height:390px}}
+
+
+/* Equal club-card treatment; ordering follows current featured residency priority. */
+.residency-showcase{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+.residency-showcase>.residency-card{grid-column:auto;display:block;height:100%;min-height:450px;border:1px solid rgba(229,9,20,.42);background:radial-gradient(ellipse at 50% 0%,rgba(229,9,20,.11),transparent 55%),linear-gradient(155deg,#121214,#080809 72%);box-shadow:inset 0 0 36px rgba(229,9,20,.055)}
+.residency-showcase>.residency-card .residency-overlay{background:linear-gradient(180deg,rgba(229,9,20,.025),transparent 35%,rgba(0,0,0,.24))}
+.residency-showcase>.residency-card .residency-content{height:100%;min-height:450px;padding:40px 24px 22px;align-items:center;justify-content:flex-end;text-align:center}
+.residency-showcase>.residency-card .resident-label{top:12px;left:12px;padding:6px 8px;border:1px solid rgba(229,9,20,.48);background:rgba(12,5,6,.8);color:#ff777d;font-size:7px}
+.residency-showcase>.residency-card .residency-logo-frame{flex:none;width:min(100%,210px);aspect-ratio:1/1;margin:0 auto 12px;border:1px solid rgba(229,9,20,.38);border-top:2px solid var(--red);background:#202020;box-shadow:0 0 24px rgba(229,9,20,.1)}
+.residency-showcase>.residency-card .residency-logo-frame img{width:100%;height:100%;object-fit:contain;object-position:center;filter:none;transform:none}
+.residency-showcase>.residency-card .residency-content h3{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;margin:0}
+.residency-showcase>.residency-card .residency-times{width:100%;justify-content:center;gap:14px;border-top-color:rgba(229,9,20,.4);padding-top:12px}
+.residency-showcase>.residency-card .residency-times p{min-width:115px;max-width:100%}
+.residency-showcase>.residency-card .residency-times b{color:#f3f3f4;font-size:8px}
+.residency-showcase>.residency-card .residency-times span{color:#c5c5ca;font-size:9px;line-height:1.5}
+.residency-showcase>.residency-card .residency-content small{margin-top:12px;color:#aaa;font-size:7px}
+.residency-showcase>.residency-card .residency-button{align-self:center;margin-top:11px}
+@media(hover:hover){.residency-showcase>.residency-card:hover{border-color:rgba(255,40,50,.82);box-shadow:inset 0 0 44px rgba(229,9,20,.11),0 12px 30px rgba(229,9,20,.12)}.residency-showcase>.residency-card:hover .residency-logo-frame{box-shadow:0 0 34px rgba(229,9,20,.2)}}
+@media(max-width:700px){.residency-showcase{grid-template-columns:1fr;gap:10px}.residency-showcase>.residency-card,.residency-showcase>.residency-card .residency-content{min-height:430px}.residency-showcase>.residency-card .residency-content{padding:38px 20px 20px}.residency-showcase>.residency-card .residency-logo-frame{width:min(100%,200px)}.residency-showcase>.residency-card .residency-times{gap:10px}.residency-showcase>.residency-card .residency-times p{min-width:105px}}
