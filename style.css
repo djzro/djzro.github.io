@@ -310,3 +310,19 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .featured-mix{position:relative}
 .featured-mix #featured-mix-player{position:absolute;inset:auto auto 0 0;width:1px;height:1px;min-height:0;opacity:0;overflow:hidden;pointer-events:none;clip-path:inset(50%)}
 .mix-card iframe{position:absolute;inset:auto auto 0 0;width:1px;height:1px;min-height:0;opacity:0;overflow:hidden;pointer-events:none;clip-path:inset(50%)}
+
+.residency-onyx{grid-column:1/-1;min-height:320px;border-color:rgba(220,220,228,.38);background:radial-gradient(ellipse at 24% 50%,rgba(255,255,255,.09),transparent 44%),linear-gradient(110deg,#151518,#080809 68%)}
+.residency-onyx .residency-overlay{background:linear-gradient(90deg,rgba(0,0,0,.04),rgba(0,0,0,.4) 34%,rgba(0,0,0,.88) 100%)}
+.onyx-feature-content{position:relative;z-index:2;min-height:320px;height:100%;display:grid;grid-template-columns:minmax(230px,34%) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,64px);padding:28px clamp(24px,5vw,58px)}
+.onyx-feature-mark{width:min(100%,330px);aspect-ratio:1;justify-self:center;overflow:hidden;border:1px solid rgba(255,255,255,.32);box-shadow:0 0 42px rgba(255,255,255,.08)}
+.onyx-feature-mark img{display:block;width:100%;height:100%;object-fit:cover}
+.onyx-feature-copy{min-width:0}
+.onyx-feature-label{display:block;margin-bottom:13px;color:#e4e4e7;font-size:8px;font-weight:900;letter-spacing:.18em}
+.onyx-feature-copy h3{margin:0 0 10px;color:#fff;font-size:clamp(48px,7vw,88px);line-height:.9;letter-spacing:-.07em}
+.onyx-feature-intro{margin:0 0 22px;color:#aaa;font-size:9px;font-weight:800;letter-spacing:.16em}
+.residency-onyx .residency-times{gap:26px;border-top-color:rgba(255,255,255,.28)}
+.residency-onyx .residency-times b{color:#f4f4f5;font-size:9px}
+.residency-onyx .residency-times span{color:#c5c5ca;font-size:10px}
+.residency-onyx .onyx-feature-copy>small{display:block;margin-top:18px;color:#999;font-size:7px;font-weight:900;letter-spacing:.16em}
+@media(hover:hover){.residency-onyx:hover{border-color:rgba(255,255,255,.7);box-shadow:0 12px 36px rgba(255,255,255,.09)}.residency-onyx:hover .onyx-feature-mark{box-shadow:0 0 52px rgba(255,255,255,.14)}}
+@media(max-width:700px){.residency-onyx{min-height:0}.onyx-feature-content{grid-template-columns:1fr;gap:22px;padding:22px 18px 26px;text-align:center}.onyx-feature-mark{width:min(100%,260px)}.onyx-feature-copy h3{font-size:clamp(42px,12vw,64px)}.onyx-feature-intro{margin-bottom:17px}.residency-onyx .residency-times{justify-content:center;gap:14px}.residency-onyx .residency-times p{max-width:165px}}
