@@ -326,3 +326,11 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 .residency-onyx .onyx-feature-copy>small{display:block;margin-top:18px;color:#999;font-size:7px;font-weight:900;letter-spacing:.16em}
 @media(hover:hover){.residency-onyx:hover{border-color:rgba(255,255,255,.7);box-shadow:0 12px 36px rgba(255,255,255,.09)}.residency-onyx:hover .onyx-feature-mark{box-shadow:0 0 52px rgba(255,255,255,.14)}}
 @media(max-width:700px){.residency-onyx{min-height:0}.onyx-feature-content{grid-template-columns:1fr;gap:22px;padding:22px 18px 26px;text-align:center}.onyx-feature-mark{width:min(100%,260px)}.onyx-feature-copy h3{font-size:clamp(42px,12vw,64px)}.onyx-feature-intro{margin-bottom:17px}.residency-onyx .residency-times{justify-content:center;gap:14px}.residency-onyx .residency-times p{max-width:165px}}
+
+.residency-krush,.residency-indecent{min-height:430px;border-color:rgba(229,9,20,.48);box-shadow:inset 0 0 42px rgba(229,9,20,.07)}
+.residency-krush .residency-content,.residency-indecent .residency-content{min-height:430px}
+.residency-krush .resident-label,.residency-indecent .resident-label{top:10px;left:10px;padding:6px 8px;border:1px solid rgba(229,9,20,.58);background:rgba(12,5,6,.82);color:#ff777d;font-size:7px}
+.residency-krush .residency-logo-frame,.residency-indecent .residency-logo-frame{width:min(100%,246px);border:1px solid rgba(229,9,20,.45);border-top:2px solid var(--red);box-shadow:0 0 28px rgba(229,9,20,.12)}
+.residency-krush .residency-times,.residency-indecent .residency-times{border-top-color:rgba(229,9,20,.45)}
+@media(hover:hover){.residency-krush:hover,.residency-indecent:hover{border-color:rgba(255,40,50,.86);box-shadow:inset 0 0 48px rgba(229,9,20,.12),0 14px 34px rgba(229,9,20,.13)}.residency-krush:hover .residency-logo-frame,.residency-indecent:hover .residency-logo-frame{box-shadow:0 0 38px rgba(229,9,20,.24)}}
+@media(max-width:700px){.residency-krush,.residency-indecent,.residency-krush .residency-content,.residency-indecent .residency-content{min-height:390px}}
