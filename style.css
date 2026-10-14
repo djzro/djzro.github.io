@@ -359,3 +359,10 @@ footer{max-width:var(--max);margin:auto;padding:24px clamp(24px,6vw,90px);displa
 @media(max-width:900px){.residency-showcase>.residency-card .residency-content{grid-template-columns:minmax(105px,33%) minmax(0,1fr);gap:15px;padding:16px}.residency-showcase>.residency-card,.residency-showcase>.residency-card .residency-content{min-height:260px}}
 @media(max-width:700px){.residency-showcase{grid-template-columns:1fr;gap:10px}.residency-showcase>.residency-card,.residency-showcase>.residency-card .residency-content{min-height:230px}.residency-showcase>.residency-card .residency-content{grid-template-columns:minmax(100px,30%) minmax(0,1fr);gap:16px;padding:15px}.residency-showcase>.residency-card .residency-content h3{font-size:clamp(21px,6vw,28px)}}
 @media(max-width:420px){.residency-showcase>.residency-card,.residency-showcase>.residency-card .residency-content{min-height:0}.residency-showcase>.residency-card .residency-content{grid-template-columns:92px minmax(0,1fr);gap:12px;padding:12px}.residency-showcase>.residency-card .resident-label{font-size:6px}.residency-showcase>.residency-card .residency-times span{font-size:8px}}
+
+
+/* Fill the Indecent square with a soft brand texture while keeping the full wordmark readable. */
+.residency-indecent .residency-logo-frame{isolation:isolate;background:#171719}
+.residency-indecent .residency-logo-frame:before{position:absolute;z-index:0;inset:0;background-image:url("indecent-club-logo.webp");background-size:cover;background-position:center;filter:blur(8px);opacity:.55;transform:scale(1.08);content:""}
+.residency-indecent .residency-logo-frame img{position:relative;z-index:1;object-fit:contain;object-position:center;transform:none}
+.club-index{display:none!important}
