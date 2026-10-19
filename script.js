@@ -14,12 +14,21 @@
   const footer = $('footer');
   if (footer && bookingSlide) bookingSlide.append(footer);
   const slides = $$('main > section');
+  slides.forEach((slide, index) => {
+    const label = $('.eyebrow', slide)?.textContent.trim().replace(/\s+/g, ' ') || slide.querySelector('h1,h2,h3')?.textContent.trim() || 'DJ ZRØ';
+    const hud = document.createElement('div');
+    hud.className = 'slide-hud';
+    hud.setAttribute('aria-hidden', 'true');
+    hud.innerHTML = `<span>${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}</span><b></b><i></i>`;
+    $('b', hud).textContent = label;
+    slide.append(hud);
+  });
 
   const deckLinks = $$('.topbar nav a');
   const deckOverlay = document.createElement('div');
   deckOverlay.className = 'deck-wipe';
   deckOverlay.setAttribute('aria-hidden', 'true');
-  deckOverlay.innerHTML = '<span></span>';
+  deckOverlay.innerHTML = '<span class="deck-beam"></span><span class="deck-scan"></span><span class="deck-glitch"></span>';
   document.body.append(deckOverlay);
 
   const deckControls = document.createElement('div');
@@ -77,7 +86,7 @@
       void deckOverlay.offsetWidth;
       deckOverlay.classList.add('is-wiping');
       window.clearTimeout(transitionTimer);
-      transitionTimer = window.setTimeout(() => deckOverlay.classList.remove('is-wiping'), 620);
+      transitionTimer = window.setTimeout(() => deckOverlay.classList.remove('is-wiping'), 820);
     }
   };
 
