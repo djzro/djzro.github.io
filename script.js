@@ -519,6 +519,7 @@
     { date: '2026-10-21', dayName: 'WEDNESDAY', club: 'GOLDEN CROWS', style: 'ONE-TIME SET', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, url: null },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '8:30 AM SLT', start: 8 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null },
+    { date: '2026-10-31', dayName: 'SATURDAY', club: 'DC RHYTHMS', style: 'ONE-TIME SET', time: '10:00 AM – 11:30 AM SLT', start: 10 * 60, end: 11 * 60 + 30, url: null },
     { date: '2026-11-03', dayName: 'TUESDAY', club: 'ONYX', style: 'AFRO HOUSE', time: '11:00 AM – 12:00 PM SLT', start: 11 * 60, end: 12 * 60, url: 'https://maps.secondlife.com/secondlife/Angel%20Bliss/35/80/2502' }
   ];
 
