@@ -4,6 +4,21 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+  // Slim red progress rule reinforces the site's slide-deck navigation.
+  const progressBar = document.createElement('div');
+  progressBar.className = 'site-progress';
+  progressBar.setAttribute('aria-hidden', 'true');
+  progressBar.innerHTML = '<span></span>';
+  document.body.append(progressBar);
+  const updatePageProgress = () => {
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+    progressBar.style.setProperty('--scroll-progress', `${Math.min(100, Math.max(0, progress))}%`);
+  };
+  window.addEventListener('scroll', updatePageProgress, { passive: true });
+  window.addEventListener('resize', updatePageProgress, { passive: true });
+  updatePageProgress();
+
 
   // Second Life Time follows Pacific time and its daylight-saving changes.
   const sltTime = $('#slt-time');
