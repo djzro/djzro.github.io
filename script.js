@@ -195,7 +195,7 @@
       if (!dayNames[day] || !frequency) return;
       const isWeekly = frequency.classList.contains('is-weekly');
       event.classList.add(isWeekly ? 'agenda-resident' : 'agenda-one-time');
-      frequency.textContent = isWeekly ? 'RESIDENT' : 'ONE-TIME SET';
+      frequency.textContent = event.classList.contains('cover-set') ? 'COVER SET' : (isWeekly ? 'RESIDENT' : 'ONE-TIME SET');
       if (!isWeekly && !$('.event-date', event)) {
         const date = document.createElement('small');
         date.className = 'event-date';
@@ -515,6 +515,7 @@
   ];
 
   const oneTimeSets = [
+    { date: '2026-10-19', dayName: 'MONDAY', club: 'GOLDEN CROWS', style: 'COVER SET', time: '9:00 PM – 10:30 PM SLT', start: 21 * 60, end: 22 * 60 + 30, url: null },
     { date: '2026-10-21', dayName: 'WEDNESDAY', club: 'GOLDEN CROWS', style: 'ONE-TIME SET', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, url: null },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '8:30 AM SLT', start: 8 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null },
@@ -580,6 +581,13 @@
     const liveSet = weeklySets.find(set =>
       set.day === currentDay && currentMinutes >= set.start && currentMinutes < set.end
     );
+    const liveOneTimeSet = oneTimeSets.find(set => {
+      if (!set.end) return false;
+      const [year, month, dayNumber] = set.date.split('-').map(Number);
+      const eventDate = `${year}-${String(month).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
+      return eventDate === `${parts.year}-${String(parts.month).padStart(2, '0')}-${String(parts.day).padStart(2, '0')}`
+        && currentMinutes >= set.start && currentMinutes < set.end;
+    });
     const weeklyCandidates = weeklySets.map(set => {
       const dayOffset = (set.day - currentDay + 7) % 7;
       let target = slDateTimeToInstant(parts, dayOffset * 1440 + set.start);
@@ -593,10 +601,11 @@
     });
 
     let selected;
-    if (liveSet) {
+    if (liveSet || liveOneTimeSet) {
+      const activeSet = liveSet || liveOneTimeSet;
       selected = {
-        set: liveSet,
-        target: slDateTimeToInstant(parts, liveSet.end),
+        set: activeSet,
+        target: slDateTimeToInstant(parts, activeSet.end),
         isLive: true
       };
     } else {

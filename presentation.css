@@ -738,3 +738,24 @@ body.slide-deck { background: #fff; color: #211e20; }
   .slide-deck #gallery .photo-button img { transition: none!important; transform: none!important; }
   .slide-deck #agenda .agenda-events-grid > .event::after { animation: none!important; }
 }
+
+
+/* Golden Crows cover set: warm gold accent distinguishes this one-time booking. */
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time.cover-set {
+  border-color: #d8c28c;
+  border-left-color: #a77b20;
+  background: linear-gradient(115deg,#fffaf0 0%,#f8f0dd 74%,#ead9b3 100%);
+  box-shadow: 0 10px 24px #6c501520;
+}
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time.cover-set > div:first-child strong {
+  border-color: #947124;
+  background: linear-gradient(145deg,#a67c20,#6f4e10);
+  color: #fff;
+}
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time.cover-set .event-frequency {
+  border-color: #ae8a3b;
+  background: #ead9b3;
+  color: #60450a;
+}
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time.cover-set b { color: #211d1f; }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time.cover-set span { color: #4a3b1d; }
