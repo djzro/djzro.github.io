@@ -324,17 +324,12 @@
   // Dynamic NEXT SET based on Second Life Time (America/Los_Angeles).
   const weeklySets = [
     { day: 2, dayName: 'TUESDAY', club: 'KRUSH', time: '12:00 PM – 2:00 PM SLT', start: 12 * 60, end: 14 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
-    { day: 3, dayName: 'WEDNESDAY', club: 'GOLDEN CROWNS CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: null },
     { day: 5, dayName: 'FRIDAY', club: 'SOHO CLUB', time: '9:00 AM – 10:30 AM SLT', start: 9 * 60, end: 10 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024' },
     { day: 6, dayName: 'SATURDAY', club: 'KRUSH', time: '8:00 PM – 10:00 PM SLT', start: 20 * 60, end: 22 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
     { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
   ];
 
   const oneTimeSets = [
-    { date: '2026-10-12', dayName: 'MONDAY', club: 'DC RHYTHMS', style: 'ONE-TIME SET', time: '1:00 PM – 2:30 PM SLT', start: 13 * 60, end: 14 * 60 + 30, url: null },
-    { date: '2026-10-13', dayName: 'TUESDAY', club: 'ONYX', style: 'AFRO HOUSE', time: '11:00 AM – 12:00 PM SLT', start: 11 * 60, url: null },
-    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ONYX', style: 'DEEP HOUSE', time: '10:00 AM SLT', start: 10 * 60, url: null },
-    { date: '2026-10-15', dayName: 'THURSDAY', club: 'ARENA 51', time: '12:00 PM SLT', start: 12 * 60, url: null },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '8:30 AM SLT', start: 8 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null }
   ];
