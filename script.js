@@ -284,7 +284,7 @@
     if (event.key === 'Escape') closeLightbox();
   });
 
-  // Compact, keyboard-accessible live photo carousel.
+  // Compact, keyboard-accessible live photo album.
   const photoTrack = $('#photo-track');
   const photoCards = $$('.photo-card', photoTrack || document);
   const photoCount = $('[data-photo-count]');
@@ -292,33 +292,44 @@
   const photoNext = $('[data-photo-next]');
 
   if (photoTrack && photoCards.length) {
+    let activePhotoIndex = 0;
+    let programmaticPhotoScroll = false;
+    let photoScrollTimer;
     const currentPhotoIndex = () => {
-      const trackLeft = photoTrack.getBoundingClientRect().left;
+      const trackRect = photoTrack.getBoundingClientRect();
       return photoCards.reduce((closestIndex, card, index) => {
-        const distance = Math.abs(card.getBoundingClientRect().left - trackLeft);
-        const closestDistance = Math.abs(
-          photoCards[closestIndex].getBoundingClientRect().left - trackLeft
-        );
+        const rect = card.getBoundingClientRect();
+        const distance = Math.max(0, rect.top - trackRect.top) * 2 + Math.abs(rect.left - trackRect.left);
+        const closestRect = photoCards[closestIndex].getBoundingClientRect();
+        const closestDistance = Math.max(0, closestRect.top - trackRect.top) * 2 + Math.abs(closestRect.left - trackRect.left);
         return distance < closestDistance ? index : closestIndex;
       }, 0);
     };
 
-    const updatePhotoGallery = () => {
-      const photoIndex = currentPhotoIndex();
+    const selectPhoto = index => {
+      activePhotoIndex = Math.max(0, Math.min(photoCards.length - 1, index));
+      photoCards.forEach((card, cardIndex) => card.classList.toggle('is-current-photo', cardIndex === activePhotoIndex));
       if (photoCount) {
-        photoCount.innerHTML = String(photoIndex + 1).padStart(2, '0') + ' <i>/</i> ' + String(photoCards.length).padStart(2, '0');
+        photoCount.innerHTML = String(activePhotoIndex + 1).padStart(2, '0') + ' <i>/</i> ' + String(photoCards.length).padStart(2, '0');
       }
-      if (photoPrevious) photoPrevious.disabled = photoIndex === 0;
-      if (photoNext) photoNext.disabled = photoIndex === photoCards.length - 1;
+      if (photoPrevious) photoPrevious.disabled = activePhotoIndex === 0;
+      if (photoNext) photoNext.disabled = activePhotoIndex === photoCards.length - 1;
+    };
+
+    const updatePhotoGallery = () => {
+      if (!programmaticPhotoScroll) selectPhoto(currentPhotoIndex());
     };
 
     const movePhotoGallery = direction => {
-      const photoIndex = currentPhotoIndex();
-      const targetIndex = Math.max(0, Math.min(photoCards.length - 1, photoIndex + direction));
+      const targetIndex = Math.max(0, Math.min(photoCards.length - 1, activePhotoIndex + direction));
       const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-      const trackLeft = photoTrack.getBoundingClientRect().left;
-      const cardLeft = photoCards[targetIndex].getBoundingClientRect().left;
-      photoTrack.scrollTo({ left: photoTrack.scrollLeft + cardLeft - trackLeft, behavior });
+      const trackRect = photoTrack.getBoundingClientRect();
+      const cardRect = photoCards[targetIndex].getBoundingClientRect();
+      selectPhoto(targetIndex);
+      programmaticPhotoScroll = true;
+      photoTrack.scrollTo({ top: photoTrack.scrollTop + cardRect.top - trackRect.top, behavior });
+      window.clearTimeout(photoScrollTimer);
+      photoScrollTimer = window.setTimeout(() => { programmaticPhotoScroll = false; }, behavior === 'smooth' ? 500 : 0);
     };
 
     photoPrevious?.addEventListener('click', () => movePhotoGallery(-1));
@@ -330,6 +341,14 @@
         movePhotoGallery(-1);
       }
       if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        movePhotoGallery(1);
+      }
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        movePhotoGallery(-1);
+      }
+      if (event.key === 'ArrowDown') {
         event.preventDefault();
         movePhotoGallery(1);
       }
