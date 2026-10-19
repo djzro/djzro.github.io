@@ -4,20 +4,119 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-  // Slim red progress rule reinforces the site's slide-deck navigation.
+  // Full-screen slide deck navigation and progress.
+  const proofStrip = $('.proof-strip');
+  const bookingSlide = $('#booking');
+  if (proofStrip && bookingSlide) {
+    const bookingActions = $('.booking-actions', bookingSlide);
+    bookingSlide.insertBefore(proofStrip, bookingActions || null);
+  }
+  const footer = $('footer');
+  if (footer && bookingSlide) bookingSlide.append(footer);
+  const slides = $$('main > section');
+
+  const deckLinks = $$('.topbar nav a');
+  const deckOverlay = document.createElement('div');
+  deckOverlay.className = 'deck-wipe';
+  deckOverlay.setAttribute('aria-hidden', 'true');
+  deckOverlay.innerHTML = '<span></span>';
+  document.body.append(deckOverlay);
+
+  const deckControls = document.createElement('div');
+  deckControls.className = 'deck-controls';
+  deckControls.innerHTML = '<button type="button" data-deck-prev aria-label="Previous slide">←</button><span data-deck-count aria-live="polite"></span><button type="button" data-deck-next aria-label="Next slide">→</button>';
+  document.body.append(deckControls);
+  const deckCount = $('[data-deck-count]', deckControls);
+  const deckPrevious = $('[data-deck-prev]', deckControls);
+  const deckNext = $('[data-deck-next]', deckControls);
+
   const progressBar = document.createElement('div');
   progressBar.className = 'site-progress';
   progressBar.setAttribute('aria-hidden', 'true');
   progressBar.innerHTML = '<span></span>';
   document.body.append(progressBar);
-  const updatePageProgress = () => {
-    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
-    progressBar.style.setProperty('--scroll-progress', `${Math.min(100, Math.max(0, progress))}%`);
+  document.body.classList.add('slide-deck');
+  const initialSlide = slides.findIndex(slide => `#${slide.id}` === window.location.hash);
+  let activeSlideIndex = initialSlide >= 0 ? initialSlide : 0;
+  let transitionTimer;
+
+  const updateDeck = (nextIndex, updateHistory = false, animate = true) => {
+    if (!slides.length) return;
+    const boundedIndex = Math.max(0, Math.min(slides.length - 1, nextIndex));
+    const previousIndex = activeSlideIndex;
+    const changed = boundedIndex !== previousIndex;
+    activeSlideIndex = boundedIndex;
+
+    slides.forEach((slide, index) => {
+      const isActive = index === activeSlideIndex;
+      slide.classList.toggle('is-active-slide', isActive);
+      slide.classList.toggle('is-before-slide', index < activeSlideIndex);
+      slide.classList.toggle('is-after-slide', index > activeSlideIndex);
+      slide.setAttribute('aria-hidden', String(!isActive));
+      slide.inert = !isActive;
+      if (isActive) slide.scrollTop = 0;
+    });
+
+    deckLinks.forEach(link => {
+      const isActive = link.getAttribute('href') === `#${slides[activeSlideIndex].id}`;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+
+    if (deckCount) deckCount.textContent = `${String(activeSlideIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    if (deckPrevious) deckPrevious.disabled = activeSlideIndex === 0;
+    if (deckNext) deckNext.disabled = activeSlideIndex === slides.length - 1;
+    progressBar.style.setProperty('--deck-progress', `${((activeSlideIndex + 1) / slides.length) * 100}%`);
+
+    if (updateHistory && slides[activeSlideIndex].id) {
+      window.history.pushState({ slide: activeSlideIndex }, '', `#${slides[activeSlideIndex].id}`);
+    }
+    if (changed && animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      deckOverlay.classList.remove('is-wiping');
+      void deckOverlay.offsetWidth;
+      deckOverlay.classList.add('is-wiping');
+      window.clearTimeout(transitionTimer);
+      transitionTimer = window.setTimeout(() => deckOverlay.classList.remove('is-wiping'), 620);
+    }
   };
-  window.addEventListener('scroll', updatePageProgress, { passive: true });
-  window.addEventListener('resize', updatePageProgress, { passive: true });
-  updatePageProgress();
+
+  updateDeck(activeSlideIndex, false, false);
+
+  const slideIndexForHash = hash => slides.findIndex(slide => `#${slide.id}` === hash);
+  document.addEventListener('click', event => {
+    const anchor = event.target.closest('a[href^="#"]');
+    if (!anchor) return;
+    const targetIndex = slideIndexForHash(anchor.getAttribute('href'));
+    if (targetIndex < 0) return;
+    event.preventDefault();
+    updateDeck(targetIndex, true);
+  });
+  window.addEventListener('popstate', () => {
+    const targetIndex = slideIndexForHash(window.location.hash);
+    updateDeck(targetIndex >= 0 ? targetIndex : 0, false);
+  });
+  deckPrevious?.addEventListener('click', () => updateDeck(activeSlideIndex - 1, true));
+  deckNext?.addEventListener('click', () => updateDeck(activeSlideIndex + 1, true));
+  document.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const target = event.target;
+    const isEditing = target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(target.tagName));
+    if (isEditing) return;
+    if (event.key === 'PageDown' || event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      updateDeck(activeSlideIndex + 1, true);
+    } else if (event.key === 'PageUp' || event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      updateDeck(activeSlideIndex - 1, true);
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      updateDeck(0, true);
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      updateDeck(slides.length - 1, true);
+    }
+  });
 
 
   // Second Life Time follows Pacific time and its daylight-saving changes.
@@ -35,25 +134,6 @@
     updateSltClock();
     window.setInterval(updateSltClock, 15000);
   }
-  // Active navigation state.
-  const navLinks = $$('.topbar nav a');
-  const sections = navLinks
-    .map(link => $(link.getAttribute('href')))
-    .filter(Boolean);
-
-  if ('IntersectionObserver' in window && navLinks.length) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(link => link.classList.toggle(
-          'active',
-          link.getAttribute('href') === `#${entry.target.id}`
-        ));
-      });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-    sections.forEach(section => observer.observe(section));
-  }
-
   // Keep every set in one calendar-style grid while clearly labeling its type.
   const agendaList = $('.agenda-list');
   if (agendaList) {
