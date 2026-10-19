@@ -39,6 +39,23 @@
   const deckPrevious = $('[data-deck-prev]', deckControls);
   const deckNext = $('[data-deck-next]', deckControls);
 
+  const deckRail = document.createElement('nav');
+  deckRail.className = 'deck-rail';
+  deckRail.setAttribute('aria-label', 'Portfolio sections');
+  slides.forEach((slide, index) => {
+    const label = slide.querySelector('h1,h2,h3')?.textContent.replace(/\s+/g, ' ').trim() || slide.id;
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'deck-rail-dot';
+    dot.dataset.slideIndex = String(index);
+    dot.dataset.label = label;
+    dot.setAttribute('aria-label', `Go to ${label}`);
+    dot.addEventListener('click', () => updateDeck(index, true));
+    deckRail.appendChild(dot);
+  });
+  document.body.append(deckRail);
+  const deckDots = $$('.deck-rail-dot', deckRail);
+
   const progressBar = document.createElement('div');
   progressBar.className = 'site-progress';
   progressBar.setAttribute('aria-hidden', 'true');
@@ -76,6 +93,10 @@
     if (deckCount) deckCount.textContent = `${String(activeSlideIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
     if (deckPrevious) deckPrevious.disabled = activeSlideIndex === 0;
     if (deckNext) deckNext.disabled = activeSlideIndex === slides.length - 1;
+    deckDots.forEach((dot, index) => {
+      if (index === activeSlideIndex) dot.setAttribute('aria-current', 'page');
+      else dot.removeAttribute('aria-current');
+    });
     progressBar.style.setProperty('--deck-progress', `${((activeSlideIndex + 1) / slides.length) * 100}%`);
 
     if (updateHistory && slides[activeSlideIndex].id) {
@@ -107,6 +128,25 @@
   });
   deckPrevious?.addEventListener('click', () => updateDeck(activeSlideIndex - 1, true));
   deckNext?.addEventListener('click', () => updateDeck(activeSlideIndex + 1, true));
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart', event => {
+    if (event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', event => {
+    if (event.changedTouches.length !== 1 || !touchStartX) return;
+    const deltaX = event.changedTouches[0].clientX - touchStartX;
+    const deltaY = event.changedTouches[0].clientY - touchStartY;
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest('.party-track,.photo-grid,.deck-controls,.deck-rail')) return;
+    if (Math.abs(deltaX) > 64 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+      updateDeck(activeSlideIndex + (deltaX < 0 ? 1 : -1), true);
+    }
+    touchStartX = 0;
+    touchStartY = 0;
+  }, { passive: true });
   document.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     const target = event.target;
