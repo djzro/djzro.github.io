@@ -445,22 +445,26 @@ body.slide-deck { background: #fff; color: #211e20; }
 .slide-deck #flickr .flickr-toolbar { border-color: #d8d1d3; }
 .slide-deck #flickr .flickr-toolbar p { color: #514a4e; }
 .slide-deck #flickr .flickr-toolbar a { color: #241f21; }
+.slide-deck #flickr .flickr-carousel-controls { display: flex; align-items: center; gap: 9px; }
+.slide-deck #flickr .flickr-carousel-controls[hidden] { display: none; }
+.slide-deck #flickr .flickr-carousel-controls button { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #c8102050; background: #fff; color: #191719; font: 700 18px/1 sans-serif; cursor: pointer; transition: color .2s,background .2s,border-color .2s,transform .2s; }
+.slide-deck #flickr .flickr-carousel-controls button:hover:not(:disabled) { transform: translateY(-1px); border-color: #c81020; background: #c81020; color: #fff; }
+.slide-deck #flickr .flickr-carousel-controls button:disabled { opacity: .4; cursor: default; }
+.slide-deck #flickr #flickr-page-status { min-width: 44px; color: #514a4e; font: 800 10px/1 monospace; letter-spacing: .12em; text-align: center; }
 .slide-deck #flickr .flickr-grid {
   grid-template-columns: repeat(2,minmax(0,1fr));
   gap: 18px;
   width: 100%;
   max-width: 1500px;
-  max-height: min(66vh,680px);
   margin-inline: auto;
   padding: 18px;
-  overflow-y: auto;
+  overflow: visible;
   border: 1px solid #d8d1d3;
   border-top: 2px solid #c81020;
   background: linear-gradient(145deg,#fff,#f7f5f4);
-  scrollbar-color: #c81020 #eee9ea;
-  scrollbar-width: thin;
 }
 .slide-deck #flickr .flickr-photo { aspect-ratio: 4/3; background: #ece9e8; border-color: #cfc7c9; box-shadow: 0 8px 24px #24151914; }
+.slide-deck #flickr .flickr-photo[hidden] { display: none; }
 .slide-deck #flickr .flickr-photo-overlay { color: #fff; }
 .slide-deck #flickr .flickr-grid noscript,.slide-deck #flickr .flickr-grid noscript a { color: #332e30; }
 .slide-deck #flickr .flickr-grid::before { background: #fff; border-color: #c8102050; color: #a20b18; }
