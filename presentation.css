@@ -651,3 +651,90 @@ body.slide-deck { background: #fff; color: #211e20; }
   background: #d10d1b;
   color: #fff;
 }
+
+/* Subtle cursor-lit movement for the schedule cards and SL photo album. */
+.slide-deck #agenda .agenda-events-grid > .event {
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform .36s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .36s;
+}
+.slide-deck #agenda .agenda-events-grid > .event::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(circle at var(--light-x,50%) var(--light-y,50%),#ff34452c,transparent 44%);
+  content: "";
+  opacity: .55;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.slide-deck #agenda .agenda-events-grid > .event::after {
+  position: absolute;
+  top: -35%;
+  bottom: -35%;
+  left: -36%;
+  z-index: 0;
+  width: 32%;
+  background: linear-gradient(90deg,transparent,#ff26351a,#fff7,#ff26351a,transparent);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: skewX(-16deg);
+}
+.slide-deck #agenda .agenda-events-grid > .event > div { position: relative; z-index: 1; }
+.slide-deck #agenda .agenda-events-grid > .event .event-actions { z-index: 1; }
+.slide-deck #gallery .photo-card {
+  position: relative;
+  transform: perspective(900px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg));
+  transition: transform .38s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .38s;
+  will-change: transform;
+}
+.slide-deck #gallery .photo-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(circle at var(--light-x,50%) var(--light-y,50%),#fff5,transparent 42%);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.slide-deck #gallery .photo-button::after {
+  z-index: 1;
+  background-image: linear-gradient(transparent 48%,rgba(0,0,0,.72)),linear-gradient(110deg,transparent 36%,#fff7 50%,transparent 64%);
+  background-size: 100% 100%,240% 100%;
+  background-position: 0 0,-150% 0;
+  background-repeat: no-repeat;
+  transition: background-position .75s cubic-bezier(.2,.7,.2,1);
+}
+.slide-deck #gallery .photo-card:hover {
+  z-index: 3;
+  border-color: #d10d1b;
+  box-shadow: 0 18px 40px #c8102030,0 0 0 1px #c8102040;
+  transform: perspective(900px) translateY(-5px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg));
+}
+.slide-deck #gallery .photo-card:hover::before { opacity: 1; }
+.slide-deck #gallery .photo-card:hover .photo-button::after { background-position: 0 0,150% 0; }
+.slide-deck #gallery .photo-button img { transition: transform .6s cubic-bezier(.2,.7,.2,1),filter .45s; }
+.slide-deck #gallery .photo-card:hover .photo-button img { filter: grayscale(0) contrast(1.06); transform: scale(1.055); }
+@media(hover:hover) {
+  .slide-deck #agenda .agenda-events-grid > .event:hover {
+    z-index: 3;
+    border-color: #d10d1b;
+    box-shadow: 0 18px 38px #c8102028,0 0 0 1px #c8102030;
+    transform: perspective(900px) translateY(-5px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg));
+  }
+  .slide-deck #agenda .agenda-events-grid > .event:hover::before { opacity: 1; }
+  .slide-deck #agenda .agenda-events-grid > .event:hover::after { animation: set-light-sweep .9s cubic-bezier(.2,.7,.2,1) both; }
+}
+@keyframes set-light-sweep {
+  0% { left: -36%; opacity: 0; }
+  20% { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .slide-deck #agenda .agenda-events-grid > .event,
+  .slide-deck #gallery .photo-card,
+  .slide-deck #gallery .photo-button img { transition: none!important; transform: none!important; }
+  .slide-deck #agenda .agenda-events-grid > .event::after { animation: none!important; }
+}

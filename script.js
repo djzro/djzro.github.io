@@ -331,6 +331,28 @@
   const photoPrevious = $('[data-photo-prev]');
   const photoNext = $('[data-photo-next]');
 
+  const enablePointerGlow = elements => elements.forEach(element => {
+    element.addEventListener('pointermove', event => {
+      if (event.pointerType === 'touch') return;
+      const bounds = element.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      const x = (event.clientX - bounds.left) / bounds.width;
+      const y = (event.clientY - bounds.top) / bounds.height;
+      element.style.setProperty('--light-x', `${Math.round(x * 100)}%`);
+      element.style.setProperty('--light-y', `${Math.round(y * 100)}%`);
+      element.style.setProperty('--tilt-x', `${((x - .5) * 3).toFixed(2)}deg`);
+      element.style.setProperty('--tilt-y', `${((.5 - y) * 2).toFixed(2)}deg`);
+    });
+    element.addEventListener('pointerleave', () => {
+      element.style.removeProperty('--light-x');
+      element.style.removeProperty('--light-y');
+      element.style.removeProperty('--tilt-x');
+      element.style.removeProperty('--tilt-y');
+    });
+  });
+  enablePointerGlow($$('#agenda .agenda-events-grid > .event'));
+  enablePointerGlow(photoCards);
+
   if (photoTrack && photoCards.length) {
     let activePhotoIndex = 0;
     let programmaticPhotoScroll = false;
