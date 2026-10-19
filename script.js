@@ -647,35 +647,6 @@
         return card;
       }).filter(Boolean);
       flickrGrid.replaceChildren(...cards);
-      const flickrControls = $('.flickr-carousel-controls');
-      const previousPhotos = $('[data-flickr-prev]');
-      const nextPhotos = $('[data-flickr-next]');
-      const flickrPageStatus = $('#flickr-page-status');
-      const photosPerPage = 2;
-      const pageCount = Math.ceil(cards.length / photosPerPage);
-      let currentPage = 0;
-      const showFlickrPage = () => {
-        cards.forEach((card, index) => {
-          card.hidden = Math.floor(index / photosPerPage) !== currentPage;
-        });
-        if (previousPhotos) previousPhotos.disabled = currentPage === 0;
-        if (nextPhotos) nextPhotos.disabled = currentPage >= pageCount - 1;
-        if (flickrPageStatus) {
-          flickrPageStatus.textContent = `${String(currentPage + 1).padStart(2, '0')} / ${String(Math.max(1, pageCount)).padStart(2, '0')}`;
-        }
-      };
-      if (cards.length > photosPerPage && flickrControls) {
-        flickrControls.hidden = false;
-        previousPhotos?.addEventListener('click', () => {
-          if (currentPage > 0) currentPage -= 1;
-          showFlickrPage();
-        });
-        nextPhotos?.addEventListener('click', () => {
-          if (currentPage < pageCount - 1) currentPage += 1;
-          showFlickrPage();
-        });
-      }
-      showFlickrPage();
       flickrStatus.textContent = cards.length
         ? `${String(cards.length).padStart(2, '0')} LATEST PHOTOS FROM FLICKR`
         : 'No public photos are available yet. Open the full photostream on Flickr.';
