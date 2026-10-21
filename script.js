@@ -517,7 +517,7 @@
 
   const oneTimeSets = [
     { date: '2026-10-19', dayName: 'MONDAY', club: 'GOLDEN CROWS', style: 'COVER SET', time: '9:00 PM – 10:30 PM SLT', start: 21 * 60, end: 22 * 60 + 30, url: null },
-    { date: '2026-10-21', dayName: 'WEDNESDAY', club: 'GOLDEN CROWS', style: 'ONE-TIME SET', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, url: null },
+    { date: '2026-10-21', dayName: 'WEDNESDAY', club: 'GOLDEN CROWS', style: 'HOUSE', time: '6:00 PM – 7:30 PM SLT', start: 18 * 60, end: 19 * 60 + 30, url: null },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '8:30 AM SLT', start: 8 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
     { date: '2026-10-24', dayName: 'SATURDAY', club: 'SIM LAUNCH PARTY', style: 'SPECIAL EVENT / ONE-TIME SET', time: '5:00 PM SLT', start: 17 * 60, url: null },
     { date: '2026-10-31', dayName: 'SATURDAY', club: 'DC RHYTHMS', style: 'ONE-TIME SET', time: '10:00 AM – 11:30 AM SLT', start: 10 * 60, end: 11 * 60 + 30, url: null },
