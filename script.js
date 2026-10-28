@@ -519,6 +519,7 @@
 
   const oneTimeSets = [
     { date: '2026-10-31', dayName: 'SATURDAY', club: 'DC RHYTHMS', style: 'ONE-TIME SET', time: '10:00 AM – 11:30 AM SLT', start: 10 * 60, end: 11 * 60 + 30, url: null },
+    { date: '2026-10-31', dayName: 'SATURDAY', club: 'AJUDA BRASIL', style: 'SPECIAL EVENT · HALLOWEEN PARTY', time: '4:00 PM SLT', start: 16 * 60, url: null },
     { date: '2026-11-03', dayName: 'TUESDAY', club: 'ONYX', style: 'AFRO HOUSE', time: '11:00 AM – 12:00 PM SLT', start: 11 * 60, end: 12 * 60, url: 'https://maps.secondlife.com/secondlife/Angel%20Bliss/35/80/2502' },
     { date: '2026-11-05', dayName: 'THURSDAY', club: 'WAV', style: 'ONE-TIME SET', time: '4:00 PM SLT', start: 16 * 60, url: null }
   ];
