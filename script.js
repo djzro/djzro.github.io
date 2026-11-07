@@ -519,8 +519,6 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-11-05', dayName: 'THURSDAY', club: 'ARENA 51', style: 'ONE-TIME SET', time: '12:00 PM SLT', start: 12 * 60, url: null },
-    { date: '2026-11-05', dayName: 'THURSDAY', club: 'WAV', style: 'ONE-TIME SET', time: '4:00 PM SLT', start: 16 * 60, url: null }
   ];
 
   const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
