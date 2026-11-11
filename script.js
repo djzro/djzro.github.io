@@ -519,6 +519,7 @@
   ];
 
   const oneTimeSets = [
+    { date: '2026-11-11', dayName: 'WEDNESDAY', club: 'PASSION CALIENTE', style: 'ONE-TIME SET', time: '8:00 AM SLT', start: 8 * 60, url: null }
   ];
 
   const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
