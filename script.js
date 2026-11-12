@@ -519,7 +519,7 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-11-11', dayName: 'WEDNESDAY', club: 'PASSION CALIENTE', style: 'ONE-TIME SET', time: '8:00 AM SLT', start: 8 * 60, url: null }
+    { date: '2026-11-14', dayName: 'SATURDAY', club: 'CLUB OWL', style: 'ONE-TIME SET', time: '11:00 AM – 12:30 PM SLT', start: 11 * 60, end: 12 * 60 + 30, url: null }
   ];
 
   const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
