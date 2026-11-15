@@ -519,7 +519,7 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-11-14', dayName: 'SATURDAY', club: 'CLUB OWL', style: 'ONE-TIME SET', time: '11:00 AM – 12:30 PM SLT', start: 11 * 60, end: 12 * 60 + 30, url: null }
+    { date: '2026-11-16', dayName: 'MONDAY', club: 'GOLDEN CROWS', style: 'ONE-TIME SET', time: '10:30 AM – 12:00 PM SLT', start: 10 * 60 + 30, end: 12 * 60, url: null }
   ];
 
   const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
