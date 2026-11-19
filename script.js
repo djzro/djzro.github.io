@@ -519,7 +519,7 @@
   ];
 
   const oneTimeSets = [
-    { date: '2026-11-16', dayName: 'MONDAY', club: 'GOLDEN CROWS', style: 'ONE-TIME SET', time: '10:30 AM – 12:00 PM SLT', start: 10 * 60 + 30, end: 12 * 60, url: null }
+    { date: '2026-12-15', dayName: 'TUESDAY', club: 'ONYX', style: 'ONE-TIME SET', time: '10:00 AM SLT', start: 10 * 60, url: 'https://maps.secondlife.com/secondlife/Angel%20Bliss/35/80/2502' }
   ];
 
   const slTimeFormatter = new Intl.DateTimeFormat('en-US', {
