@@ -903,6 +903,33 @@ body.slide-deck { background: #fff; color: #211e20; }
   text-decoration: none;
 }
 .slide-deck #agenda .agenda-events-grid > .event .teleport-button:hover { text-decoration: underline; }
+
+/* Keep the weekday and its set type stacked in a clean, readable label column. */
+.slide-deck #agenda .agenda-events-grid > .event > div:first-child {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  min-width: 0;
+}
+.slide-deck #agenda .agenda-events-grid > .event > div:first-child strong {
+  display: block !important;
+  width: auto !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+.slide-deck #agenda .agenda-events-grid > .event .event-frequency,
+.slide-deck #agenda .agenda-events-grid > .event .event-date {
+  display: block !important;
+  width: auto !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .08em;
+}
 @media (hover: hover) {
   .slide-deck #agenda .agenda-events-grid > .event:hover {
     border-color: #d8d5d0;
