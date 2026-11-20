@@ -803,6 +803,17 @@ body.slide-deck { background: #fff; color: #211e20; }
 .slide-deck #agenda .agenda-events-grid > .event::after { display: none !important; }
 .slide-deck #agenda .agenda-events-grid > .event.agenda-resident { border-left-color: #d20d1b; }
 .slide-deck #agenda .agenda-events-grid > .event.agenda-one-time { border-left-color: #5d585c; }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-resident,
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time {
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid #d8d5d0 !important;
+  border-left: 3px solid #d20d1b !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time { border-left-color: #5d585c !important; }
 .slide-deck #agenda .agenda-events-grid > .event > div:first-child {
   display: grid;
   grid-template-columns: 38px minmax(0, 1fr);
@@ -826,6 +837,14 @@ body.slide-deck { background: #fff; color: #211e20; }
   line-height: 1;
   letter-spacing: -.03em;
 }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-resident > div:first-child strong,
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time > div:first-child strong {
+  width: auto !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
 .slide-deck #agenda .agenda-events-grid > .event .event-frequency,
 .slide-deck #agenda .agenda-events-grid > .event .event-date {
   display: block;
@@ -840,9 +859,17 @@ body.slide-deck { background: #fff; color: #211e20; }
   line-height: 1.25;
   letter-spacing: .08em;
 }
-.slide-deck #agenda .agenda-events-grid > .event .event-frequency.is-weekly { color: #a20b15 !important; }
-.slide-deck #agenda .agenda-events-grid > .event .event-frequency.is-one-time { color: #4d494d !important; }
-.slide-deck #agenda .agenda-events-grid > .event .event-date { color: #a20b15 !important; font-weight: 800; }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-resident .event-frequency.is-weekly,
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time .event-frequency.is-one-time {
+  width: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  font-size: 14px !important;
+}
+.slide-deck #agenda .agenda-events-grid > .event.agenda-resident .event-frequency.is-weekly { color: #a20b15 !important; }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time .event-frequency.is-one-time { color: #4d494d !important; }
+.slide-deck #agenda .agenda-events-grid > .event.agenda-one-time .event-date { color: #a20b15 !important; font-size: 14px !important; font-weight: 800; }
 .slide-deck #agenda .agenda-events-grid > .event .event-tag { display: none; }
 .slide-deck #agenda .agenda-events-grid > .event b {
   display: block;
@@ -861,6 +888,8 @@ body.slide-deck { background: #fff; color: #211e20; }
   font-weight: 600;
 }
 .slide-deck #agenda .agenda-events-grid > .event .event-actions {
+  grid-column: 3;
+  grid-row: 1;
   justify-content: flex-end;
   align-self: center;
 }
