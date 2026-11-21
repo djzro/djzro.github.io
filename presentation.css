@@ -782,7 +782,7 @@ body.slide-deck { background: #fff; color: #211e20; }
 .slide-deck #agenda .agenda-events-grid > .event {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(118px, .22fr) minmax(0, 1fr) auto;
+  grid-template-columns: 150px minmax(0, 1fr) 215px;
   align-items: center;
   gap: clamp(14px, 2vw, 26px);
   min-height: 68px;
