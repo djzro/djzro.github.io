@@ -515,7 +515,7 @@
     { day: 5, dayName: 'FRIDAY', club: 'GOLDEN CROWS', style: 'WEEKLY RESIDENT SET', time: '4:30 PM – 6:00 PM SLT', start: 16 * 60 + 30, end: 18 * 60, url: null },
     { day: 6, dayName: 'SATURDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '8:30 AM SLT', start: 8 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
     { day: 6, dayName: 'SATURDAY', club: 'KRUSH', time: '8:00 PM – 10:00 PM SLT', start: 20 * 60, end: 22 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
-    { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '10:30 PM – 12:00 AM SLT', start: 22 * 60 + 30, end: 24 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
+    { day: 6, dayName: 'SATURDAY', club: 'THE INDECENT CLUB', time: '1:30 PM – 3:00 PM SLT', start: 13 * 60 + 30, end: 15 * 60, url: 'http://maps.secondlife.com/secondlife/Red%20Room/225/30/2010' }
   ];
 
   const oneTimeSets = [
