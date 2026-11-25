@@ -510,6 +510,7 @@
   const weeklySets = [
     { day: 1, dayName: 'MONDAY', club: 'SIRENS BEACH', style: 'WEEKLY RESIDENT SET', time: '12:00 AM – 2:00 AM SLT', start: 0, end: 2 * 60, url: null },
     { day: 2, dayName: 'TUESDAY', club: 'KRUSH', time: '12:00 PM – 2:00 PM SLT', start: 12 * 60, end: 14 * 60, url: 'https://maps.secondlife.com/secondlife/Love%20is%20Love/74/9/2086' },
+    { day: 2, dayName: 'TUESDAY', club: 'BOOM BOOM CLUB', style: 'WEEKLY RESIDENT SET', time: '5:00 PM SLT', start: 17 * 60, url: null },
     { day: 4, dayName: 'THURSDAY', club: 'GOLDEN CROWS', style: 'WEEKLY RESIDENT SET', time: '6:00 AM – 7:30 AM SLT', start: 6 * 60, end: 7 * 60 + 30, url: null },
     { day: 4, dayName: 'THURSDAY', club: 'DC RHYTHMS', style: 'WEEKLY RESIDENT SET', time: '1:00 PM – 2:30 PM SLT', start: 13 * 60, end: 14 * 60 + 30, url: null },
     { day: 5, dayName: 'FRIDAY', club: 'SOHO CLUB', time: '9:00 AM – 10:30 AM SLT', start: 9 * 60, end: 10 * 60 + 30, url: 'https://maps.secondlife.com/secondlife/Soho%20Island/60/192/3024' },
