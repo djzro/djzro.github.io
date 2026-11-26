@@ -521,6 +521,7 @@
 
   const oneTimeSets = [
     { date: '2026-11-27', dayName: 'FRIDAY', club: 'MUSIC FOR THE SOUL', style: 'TECH HOUSE', time: '10:00 AM SLT', start: 10 * 60, url: 'https://maps.secondlife.com/secondlife/Falling%20Rose/43/35/2006' },
+    { date: '2026-12-02', dayName: 'WEDNESDAY', club: 'AUREUM', style: 'TECH HOUSE', time: '11:30 PM SLT', start: 23 * 60 + 30, url: null },
     { date: '2026-12-15', dayName: 'TUESDAY', club: 'ONYX', style: 'ONE-TIME SET', time: '10:00 AM SLT', start: 10 * 60, url: 'https://maps.secondlife.com/secondlife/Angel%20Bliss/35/80/2502' }
   ];
 
